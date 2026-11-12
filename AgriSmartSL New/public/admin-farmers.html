@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Farmers - AgriSmartSL</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .admin-page-title {
+            margin-bottom: 25px;
+        }
+
+        .admin-page-title h2 {
+            margin-bottom: 6px;
+        }
+
+        .admin-page-title p {
+            color: #666;
+        }
+
+        .farmers-container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .farmers-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .farmers-header h3 {
+            margin: 0;
+        }
+
+        .farmer-count {
+            background: #eef7ee;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .farmers-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .farmers-table th,
+        .farmers-table td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #eeeeee;
+            vertical-align: middle;
+        }
+
+        .farmers-table th {
+            background: #f7f9f7;
+            font-size: 14px;
+        }
+
+        .farmers-table tbody tr:hover {
+            background: #fafcfa;
+        }
+
+        .farmer-name {
+            font-weight: 600;
+        }
+
+        .profile-complete {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: #e8f5e9;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .profile-incomplete {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            background: #fff3e0;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .loading-message,
+        .error-message,
+        .empty-message {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .error-message {
+            color: #b42318;
+        }
+
+        @media (max-width: 768px) {
+            .farmers-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>AgriSmartSL</h2>
+            <p>Admin Portal</p>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="/admin-farmers.html" class="active">
+                Manage Farmers
+            </a>
+
+            <a href="#">
+                Manage Crops
+            </a>
+
+            <a href="#">
+                Manage Crop Rules
+            </a>
+
+            <a href="#">
+                Manage Advisories
+            </a>
+
+            <a href="#">
+                Reports
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+
+            <div>
+                <h1>Manage Farmers</h1>
+                <p>View registered farmers and their farm information</p>
+            </div>
+
+            <div class="dashboard-user">
+                <span id="adminName">
+                    Administrator
+                </span>
+            </div>
+
+        </header>
+
+
+        <section class="dashboard-content">
+
+            <div class="admin-page-title">
+
+                <h2>Registered Farmers</h2>
+
+                <p>
+                    Review farmer account and agricultural profile
+                    information registered in AgriSmartSL.
+                </p>
+
+            </div>
+
+
+            <div class="farmers-container">
+
+                <div class="farmers-header">
+
+                    <h3>Farmer Accounts</h3>
+
+                    <span class="farmer-count">
+                        Total Farmers:
+                        <span id="farmerCount">0</span>
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="farmers-table">
+
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>District</th>
+                                <th>Farm Size</th>
+                                <th>Primary Crop</th>
+                                <th>Soil Type</th>
+                                <th>Profile</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="farmersTableBody">
+
+                            <tr>
+                                <td colspan="8" class="loading-message">
+                                    Loading farmers...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+                return '';
+            }
+
+            return String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+
+        async function loadFarmers() {
+
+            const tableBody =
+                document.getElementById('farmersTableBody');
+
+            try {
+
+                // Check logged-in user
+                const userResponse =
+                    await fetch('/current-user');
+
+                if (!userResponse.ok) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const userData =
+                    await userResponse.json();
+
+                if (
+                    !userData.success ||
+                    userData.user.role !== 'admin'
+                ) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+
+                // Display admin name
+                document.getElementById(
+                    'adminName'
+                ).textContent =
+                    userData.user.full_name;
+
+
+                // Load farmers
+                const response =
+                    await fetch('/admin/farmers');
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td
+                                colspan="8"
+                                class="error-message"
+                            >
+                                Unable to load farmers.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                const farmers = data.farmers;
+
+                document.getElementById(
+                    'farmerCount'
+                ).textContent =
+                    farmers.length;
+
+
+                if (farmers.length === 0) {
+
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td
+                                colspan="8"
+                                class="empty-message"
+                            >
+                                No registered farmers found.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                tableBody.innerHTML =
+                    farmers.map((farmer) => {
+
+                        const profileComplete =
+                            farmer.district &&
+                            farmer.soil_type &&
+                            farmer.primary_crop;
+
+
+                        const farmSize =
+                            farmer.farm_size
+                                ? `${escapeHtml(
+                                    farmer.farm_size
+                                )} ${escapeHtml(
+                                    farmer.farm_size_unit
+                                )}`
+                                : 'Not set';
+
+
+                        return `
+                            <tr>
+
+                                <td class="farmer-name">
+                                    ${escapeHtml(
+                                        farmer.full_name
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(
+                                        farmer.email
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${farmer.phone
+                                        ? escapeHtml(
+                                            farmer.phone
+                                        )
+                                        : 'Not set'}
+                                </td>
+
+                                <td>
+                                    ${farmer.district
+                                        ? escapeHtml(
+                                            farmer.district
+                                        )
+                                        : 'Not set'}
+                                </td>
+
+                                <td>
+                                    ${farmSize}
+                                </td>
+
+                                <td>
+                                    ${farmer.primary_crop
+                                        ? escapeHtml(
+                                            farmer.primary_crop
+                                        )
+                                        : 'Not set'}
+                                </td>
+
+                                <td>
+                                    ${farmer.soil_type
+                                        ? escapeHtml(
+                                            farmer.soil_type
+                                        )
+                                        : 'Not set'}
+                                </td>
+
+                                <td>
+                                    <span class="${
+                                        profileComplete
+                                            ? 'profile-complete'
+                                            : 'profile-incomplete'
+                                    }">
+                                        ${
+                                            profileComplete
+                                                ? 'Complete'
+                                                : 'Incomplete'
+                                        }
+                                    </span>
+                                </td>
+
+                            </tr>
+                        `;
+
+                    }).join('');
+
+
+            } catch (error) {
+
+                console.error(
+                    'Manage farmers error:',
+                    error
+                );
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="8"
+                            class="error-message"
+                        >
+                            Unable to load farmer information.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+
+        loadFarmers();
+
+    </script>
+
+</body>
+</html>

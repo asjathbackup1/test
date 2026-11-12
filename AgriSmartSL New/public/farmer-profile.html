@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Profile - AgriSmartSL</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>AgriSmartSL</h2>
+            <p>Farmer Portal</p>
+        </div>
+
+        <nav class="sidebar-menu">
+            <a href="/farmer-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="/weather.html">
+                Weather Information
+            </a>
+
+            <a href="/crop-recommendation.html">
+                Crop Recommendations
+            </a>
+
+            <a href="/farm-advisory.html">
+                Farm Advisory
+            </a>
+
+            <a href="/farmer-profile.html" class="active">
+                My Profile
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+        </nav>
+
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+            <div>
+                <h1>My Profile</h1>
+                <p>View and update your farmer information</p>
+            </div>
+
+            <div class="dashboard-user">
+                <span id="profileUserName">Farmer</span>
+            </div>
+        </header>
+
+        <section class="dashboard-content">
+
+    <!-- PROFILE INTRODUCTION -->
+
+    <div class="profile-hero">
+
+        <div class="profile-avatar">
+            <span id="profileInitial">F</span>
+        </div>
+
+        <div class="profile-hero-info">
+
+            <span class="profile-label">
+                FARMER PROFILE
+            </span>
+
+            <h2 id="profileDisplayName">
+                Farmer
+            </h2>
+
+            <p>
+                Manage your personal information and farm
+                details used by AgriSmartSL.
+            </p>
+
+        </div>
+
+        <div class="profile-status">
+            <span></span>
+            Active Account
+        </div>
+
+    </div>
+
+
+    <div id="profileMessage"></div>
+
+
+    <form id="profileForm">
+
+        <!-- PERSONAL INFORMATION -->
+
+        <div class="profile-section-card">
+
+            <div class="profile-section-heading">
+
+                <div>
+                    <span class="profile-section-label">
+                        PERSONAL DETAILS
+                    </span>
+
+                    <h2>Personal Information</h2>
+
+                    <p>
+                        Keep your contact and location
+                        information up to date.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="profile-form-grid">
+
+                <div class="form-group">
+
+                    <label for="full_name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="full_name"
+                        name="full_name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        readonly
+                    >
+
+                    <small class="profile-field-note">
+                        Your registered email cannot be changed.
+                    </small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter phone number"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="district">
+                        District
+                    </label>
+
+                    <select
+                        id="district"
+                        name="district"
+                        required
+                    >
+
+                        <option value="">
+                            Select district
+                        </option>
+
+                        <option value="Ampara">Ampara</option>
+                        <option value="Anuradhapura">Anuradhapura</option>
+                        <option value="Badulla">Badulla</option>
+                        <option value="Batticaloa">Batticaloa</option>
+                        <option value="Colombo">Colombo</option>
+                        <option value="Galle">Galle</option>
+                        <option value="Gampaha">Gampaha</option>
+                        <option value="Hambantota">Hambantota</option>
+                        <option value="Jaffna">Jaffna</option>
+                        <option value="Kalutara">Kalutara</option>
+                        <option value="Kandy">Kandy</option>
+                        <option value="Kegalle">Kegalle</option>
+                        <option value="Kilinochchi">Kilinochchi</option>
+                        <option value="Kurunegala">Kurunegala</option>
+                        <option value="Mannar">Mannar</option>
+                        <option value="Matale">Matale</option>
+                        <option value="Matara">Matara</option>
+                        <option value="Monaragala">Monaragala</option>
+                        <option value="Mullaitivu">Mullaitivu</option>
+                        <option value="Nuwara Eliya">Nuwara Eliya</option>
+                        <option value="Polonnaruwa">Polonnaruwa</option>
+                        <option value="Puttalam">Puttalam</option>
+                        <option value="Ratnapura">Ratnapura</option>
+                        <option value="Trincomalee">Trincomalee</option>
+                        <option value="Vavuniya">Vavuniya</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full-width">
+
+                    <label for="address">
+                        Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        rows="3"
+                        placeholder="Enter your address"
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- FARM INFORMATION -->
+
+        <div class="profile-section-card">
+
+            <div class="profile-section-heading">
+
+                <div>
+                    <span class="profile-section-label">
+                        FARM DETAILS
+                    </span>
+
+                    <h2>Farm Information</h2>
+
+                    <p>
+                        These details help AgriSmartSL provide
+                        more relevant agricultural guidance.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="profile-form-grid">
+
+                <div class="form-group">
+
+                    <label for="farm_size">
+                        Farm Size
+                    </label>
+
+                    <input
+                        type="number"
+                        id="farm_size"
+                        name="farm_size"
+                        min="0"
+                        step="0.01"
+                        placeholder="Example: 2.50"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="farm_size_unit">
+                        Farm Size Unit
+                    </label>
+
+                    <select
+                        id="farm_size_unit"
+                        name="farm_size_unit"
+                    >
+                        <option value="acres">
+                            Acres
+                        </option>
+
+                        <option value="hectares">
+                            Hectares
+                        </option>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="primary_crop">
+                        Primary Crop
+                    </label>
+
+                    <select
+                        id="primary_crop"
+                        name="primary_crop"
+                    >
+                        <option value="">
+                            Select primary crop
+                        </option>
+
+                        <option value="Rice">Rice</option>
+                        <option value="Tea">Tea</option>
+                        <option value="Coconut">Coconut</option>
+                        <option value="Rubber">Rubber</option>
+                        <option value="Maize">Maize</option>
+                        <option value="Vegetables">Vegetables</option>
+                        <option value="Fruits">Fruits</option>
+                        <option value="Spices">Spices</option>
+                        <option value="Other">Other</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="soil_type">
+                        Soil Type
+                    </label>
+
+                    <select
+                        id="soil_type"
+                        name="soil_type"
+                        required
+                    >
+
+                        <option value="">
+                            Select soil type
+                        </option>
+
+                        <option value="Clay or loamy soil">
+                            Clay or loamy soil
+                        </option>
+
+                        <option value="Acidic well-drained soil">
+                            Acidic well-drained soil
+                        </option>
+
+                        <option value="Sandy or loamy soil">
+                            Sandy or loamy soil
+                        </option>
+
+                        <option value="Well-drained loamy soil">
+                            Well-drained loamy soil
+                        </option>
+
+                        <option value="Fertile loamy soil">
+                            Fertile loamy soil
+                        </option>
+
+                    </select>
+
+                    <small class="profile-field-note">
+                        Soil type is used by the crop recommendation system.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SAVE AREA -->
+
+        <div class="profile-save-area">
+
+            <div>
+                <strong>Keep your farm profile accurate</strong>
+
+                <p>
+                    Changes to district and soil type may affect
+                    future crop recommendations.
+                </p>
+            </div>
+
+            <button
+                type="submit"
+                id="profileSaveButton"
+                class="auth-button profile-button"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+    </main>
+
+    <script>
+        async function loadFarmerProfile() {
+            try {
+                const response = await fetch('/farmer/profile');
+                const data = await response.json();
+
+                if (!response.ok || !data.success) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const farmer = data.farmer;
+
+                document.getElementById(
+                    'profileDisplayName'
+                ).textContent =
+                    farmer.full_name || 'Farmer';
+
+
+                document.getElementById(
+                    'profileInitial'
+                ).textContent =
+                    farmer.full_name
+                        ? farmer.full_name.charAt(0).toUpperCase()
+                        : 'F';
+
+                document.getElementById('profileUserName').textContent =
+                    farmer.full_name;
+
+                document.getElementById('full_name').value =
+                    farmer.full_name || '';
+
+                document.getElementById('email').value =
+                    farmer.email || '';
+
+                document.getElementById('phone').value =
+                    farmer.phone || '';
+
+                document.getElementById('district').value =
+                    farmer.district || '';
+
+                document.getElementById('address').value =
+                    farmer.address || '';
+
+                document.getElementById('farm_size').value =
+                    farmer.farm_size || '';
+
+                document.getElementById('farm_size_unit').value =
+                    farmer.farm_size_unit || 'acres';
+
+                document.getElementById('primary_crop').value =
+                    farmer.primary_crop || '';
+
+                document.getElementById('soil_type').value =
+                    farmer.soil_type || '';
+
+            } catch (error) {
+                console.error('Profile loading error:', error);
+                window.location.href = '/login.html';
+            }
+        }
+
+        document.getElementById('profileForm').addEventListener(
+            'submit',
+            async function (event) {
+                event.preventDefault();
+
+                const formData = {
+                    full_name:
+                        document.getElementById('full_name').value,
+
+                    phone:
+                        document.getElementById('phone').value,
+
+                    district:
+                        document.getElementById('district').value,
+
+                    address:
+                        document.getElementById('address').value,
+
+                    farm_size:
+                        document.getElementById('farm_size').value,
+
+                    farm_size_unit:
+                        document.getElementById('farm_size_unit').value,
+
+                    primary_crop:
+                        document.getElementById('primary_crop').value,
+
+                    soil_type:
+                        document.getElementById('soil_type').value
+                };
+
+                try {
+                    const response = await fetch('/farmer/profile', {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    const messageBox =
+                        document.getElementById('profileMessage');
+
+                    if (!response.ok || !data.success) {
+                        messageBox.innerHTML = `
+                            <p class="message-error">
+                                ${data.message}
+                            </p>
+                        `;
+
+                        return;
+                    }
+
+                    messageBox.innerHTML = `
+                        <p class="message-success">
+                            Profile updated successfully.
+                        </p>
+                    `;
+
+                    messageBox.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
+
+                    document.getElementById(
+                        'profileUserName'
+                    ).textContent = formData.full_name;
+
+                    // Update profile summary after saving
+                        document.getElementById(
+                            'profileDisplayName'
+                        ).textContent =
+                            formData.full_name;
+
+                        document.getElementById(
+                            'profileInitial'
+                        ).textContent =
+                            formData.full_name
+                                ? formData.full_name.charAt(0).toUpperCase()
+                                : 'F';
+
+                } catch (error) {
+                    console.error('Profile update error:', error);
+                }
+            }
+        );
+
+        loadFarmerProfile();
+    </script>
+
+</body>
+</html>

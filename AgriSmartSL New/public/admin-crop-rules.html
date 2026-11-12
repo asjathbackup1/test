@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manage Crop Rules - AgriSmartSL</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <style>
+        .admin-page-title {
+            margin-bottom: 25px;
+        }
+
+        .admin-page-title h2 {
+            margin-bottom: 6px;
+        }
+
+        .admin-page-title p {
+            color: #666;
+        }
+
+        .rules-container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+        }
+
+        .rules-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .rules-header h3 {
+            margin: 0;
+        }
+
+        .rule-count {
+            background: #eef7ee;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .rules-info {
+            background: #f7faf7;
+            border-left: 4px solid #4f7d4f;
+            padding: 15px 18px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+        }
+
+        .rules-info strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .rules-info p {
+            margin: 0;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .rules-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .rules-table th,
+        .rules-table td {
+            padding: 13px 11px;
+            text-align: left;
+            border-bottom: 1px solid #eeeeee;
+            vertical-align: top;
+        }
+
+        .rules-table th {
+            background: #f7f9f7;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+
+        .rules-table tbody tr:hover {
+            background: #fafcfa;
+        }
+
+        .crop-name {
+            font-weight: 700;
+        }
+
+        .range-badge {
+            display: inline-block;
+            padding: 5px 9px;
+            background: #f0f4f0;
+            border-radius: 12px;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+
+        .rule-note {
+            min-width: 230px;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .loading-message,
+        .error-message,
+        .empty-message {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .error-message {
+            color: #b42318;
+        }
+
+        @media (max-width: 768px) {
+            .rules-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>AgriSmartSL</h2>
+            <p>Admin Portal</p>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/admin-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="/admin-farmers.html">
+                Manage Farmers
+            </a>
+
+            <a href="#">
+                Manage Crops
+            </a>
+
+            <a href="/admin-crop-rules.html" class="active">
+                Manage Crop Rules
+            </a>
+
+            <a href="#">
+                Manage Advisories
+            </a>
+
+            <a href="#">
+                Reports
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+
+            <div>
+                <h1>Manage Crop Rules</h1>
+                <p>
+                    View the rules used by the crop recommendation system
+                </p>
+            </div>
+
+            <div class="dashboard-user">
+                <span id="adminName">
+                    Administrator
+                </span>
+            </div>
+
+        </header>
+
+
+        <section class="dashboard-content">
+
+            <div class="admin-page-title">
+
+                <h2>Crop Recommendation Rules</h2>
+
+                <p>
+                    Review the agricultural conditions used to determine
+                    suitable crops for farmers.
+                </p>
+
+            </div>
+
+
+            <div class="rules-container">
+
+                <div class="rules-header">
+
+                    <h3>Recommendation Rule List</h3>
+
+                    <span class="rule-count">
+                        Total Rules:
+                        <span id="ruleCount">0</span>
+                    </span>
+
+                </div>
+
+
+                <div class="rules-info">
+
+                    <strong>
+                        How are these rules used?
+                    </strong>
+
+                    <p>
+                        AgriSmartSL compares the farmer's district and soil
+                        type together with current temperature and humidity
+                        against these rules to identify suitable crops.
+                    </p>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <table class="rules-table">
+
+                        <thead>
+                            <tr>
+                                <th>Crop</th>
+                                <th>District</th>
+                                <th>Soil Type</th>
+                                <th>Temperature</th>
+                                <th>Humidity</th>
+                                <th>Recommendation Note</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="rulesTableBody">
+
+                            <tr>
+                                <td colspan="6" class="loading-message">
+                                    Loading crop rules...
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        function escapeHtml(value) {
+
+            if (
+                value === null ||
+                value === undefined
+            ) {
+                return '';
+            }
+
+            return String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#039;');
+        }
+
+
+        async function loadCropRules() {
+
+            const tableBody =
+                document.getElementById('rulesTableBody');
+
+            try {
+
+                // Check current user
+                const userResponse =
+                    await fetch('/current-user');
+
+                if (!userResponse.ok) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const userData =
+                    await userResponse.json();
+
+                if (
+                    !userData.success ||
+                    userData.user.role !== 'admin'
+                ) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+
+                // Display administrator name
+                document.getElementById(
+                    'adminName'
+                ).textContent =
+                    userData.user.full_name;
+
+
+                // Get crop rules
+                const response =
+                    await fetch('/admin/crop-rules');
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td
+                                colspan="6"
+                                class="error-message"
+                            >
+                                Unable to load crop rules.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                const rules = data.cropRules;
+
+                document.getElementById(
+                    'ruleCount'
+                ).textContent =
+                    rules.length;
+
+
+                if (rules.length === 0) {
+
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td
+                                colspan="6"
+                                class="empty-message"
+                            >
+                                No crop recommendation rules found.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+
+                tableBody.innerHTML =
+                    rules.map((rule) => {
+
+                        return `
+                            <tr>
+
+                                <td class="crop-name">
+                                    ${escapeHtml(
+                                        rule.crop_name
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(
+                                        rule.suitable_district
+                                    )}
+                                </td>
+
+                                <td>
+                                    ${escapeHtml(
+                                        rule.soil_type
+                                    )}
+                                </td>
+
+                                <td>
+                                    <span class="range-badge">
+                                        ${escapeHtml(
+                                            rule.min_temperature
+                                        )}°C -
+                                        ${escapeHtml(
+                                            rule.max_temperature
+                                        )}°C
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="range-badge">
+                                        ${escapeHtml(
+                                            rule.min_humidity
+                                        )}% -
+                                        ${escapeHtml(
+                                            rule.max_humidity
+                                        )}%
+                                    </span>
+                                </td>
+
+                                <td class="rule-note">
+                                    ${escapeHtml(
+                                        rule.recommendation_note
+                                    )}
+                                </td>
+
+                            </tr>
+                        `;
+
+                    }).join('');
+
+
+            } catch (error) {
+
+                console.error(
+                    'Crop rules page error:',
+                    error
+                );
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="6"
+                            class="error-message"
+                        >
+                            Unable to load crop recommendation rules.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+
+        loadCropRules();
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AgriSmartSL Login</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+
+        <!-- Left Side -->
+        <div class="auth-left">
+            <div class="brand">
+                <h1>AgriSmartSL</h1>
+                <p>
+                    Intelligent Agriculture Advisory System
+                    for Sri Lankan Farmers
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="auth-right">
+
+            <div class="auth-card">
+
+                <h2>Welcome Back</h2>
+
+                <p class="auth-subtitle">
+                    Login to access your account
+                </p>
+
+                <!-- Login Message -->
+                <div id="loginMessage" class="form-message"></div>
+
+                <!-- Login Form -->
+                <form id="loginForm" autocomplete="off">
+
+                    <div class="form-group">
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="off"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="new-password"
+                            required
+                        >
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="auth-button"
+                        id="loginButton"
+                    >
+                        Login
+                    </button>
+
+                </form>
+
+                <p class="auth-link">
+                    New farmer?
+                    <a href="/register.html">
+                        Create an account
+                    </a>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+        // Get HTML elements
+        const loginForm =
+            document.getElementById('loginForm');
+
+        const loginMessage =
+            document.getElementById('loginMessage');
+
+        const loginButton =
+            document.getElementById('loginButton');
+
+
+        // Login form submission
+        loginForm.addEventListener('submit', async function (event) {
+
+            // Stop normal form submission
+            event.preventDefault();
+
+            const email =
+                document.getElementById('email').value.trim();
+
+            const password =
+                document.getElementById('password').value;
+
+
+            // Clear old message
+            loginMessage.textContent = '';
+            loginMessage.className = 'form-message';
+
+
+            // Change button while processing
+            loginButton.disabled = true;
+            loginButton.textContent = 'Logging in...';
+
+
+            try {
+
+                const response = await fetch('/login', {
+
+                    method: 'POST',
+
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
+
+
+                const data = await response.json();
+
+
+                // Successful login
+                if (data.success) {
+
+                    loginMessage.textContent =
+                        data.message;
+
+                    loginMessage.className =
+                        'form-message success';
+
+                    loginButton.textContent =
+                        'Login Successful';
+
+
+                    // Redirect after showing message
+                    setTimeout(function () {
+
+                        window.location.href =
+                            data.redirect;
+
+                    }, 1200);
+
+                }
+
+                // Login failed
+                else {
+
+                    loginMessage.textContent =
+                        data.message;
+
+                    loginMessage.className =
+                        'form-message error';
+
+                    loginButton.disabled = false;
+                    loginButton.textContent = 'Login';
+                }
+
+
+            } catch (error) {
+
+                console.error('Login error:', error);
+
+                loginMessage.textContent =
+                    'Unable to connect to the server. Please try again.';
+
+                loginMessage.className =
+                    'form-message error';
+
+                loginButton.disabled = false;
+                loginButton.textContent = 'Login';
+            }
+
+        });
+    </script>
+
+</body>
+</html>

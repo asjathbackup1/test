@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Farmer Registration - AgriSmartSL</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="auth-body">
+
+    <div class="auth-container">
+
+        <!-- Left Side -->
+        <div class="auth-left">
+            <div class="brand">
+
+                <h1>AgriSmartSL</h1>
+
+                <p>
+                    Register as a farmer and receive weather information,
+                    crop recommendations and agricultural advice.
+                </p>
+
+            </div>
+        </div>
+
+
+        <!-- Right Side -->
+        <div class="auth-right">
+
+            <div class="auth-card registration-card">
+
+                <h2>Farmer Registration</h2>
+
+                <p class="auth-subtitle">
+                    Create your account
+                </p>
+
+
+                <!-- Error Message -->
+                <div
+                    id="registerMessage"
+                    class="form-message"
+                ></div>
+
+
+                <!-- Registration Form -->
+                <form
+                    id="registerForm"
+                    autocomplete="off"
+                >
+
+                    <!-- Full Name -->
+                    <div class="form-group">
+
+                        <label for="full_name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="full_name"
+                            name="full_name"
+                            placeholder="Enter your full name"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Email -->
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Phone -->
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone Number
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="phone"
+                            name="phone"
+                            placeholder="Enter your phone number"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- District -->
+                    <div class="form-group">
+
+                        <label for="district">
+                            District
+                        </label>
+
+                        <select
+                            id="district"
+                            name="district"
+                            required
+                        >
+
+                            <option value="">
+                                Select your district
+                            </option>
+
+                            <option value="Ampara">Ampara</option>
+                            <option value="Anuradhapura">Anuradhapura</option>
+                            <option value="Badulla">Badulla</option>
+                            <option value="Batticaloa">Batticaloa</option>
+                            <option value="Colombo">Colombo</option>
+                            <option value="Galle">Galle</option>
+                            <option value="Gampaha">Gampaha</option>
+                            <option value="Hambantota">Hambantota</option>
+                            <option value="Jaffna">Jaffna</option>
+                            <option value="Kalutara">Kalutara</option>
+                            <option value="Kandy">Kandy</option>
+                            <option value="Kegalle">Kegalle</option>
+                            <option value="Kilinochchi">Kilinochchi</option>
+                            <option value="Kurunegala">Kurunegala</option>
+                            <option value="Mannar">Mannar</option>
+                            <option value="Matale">Matale</option>
+                            <option value="Matara">Matara</option>
+                            <option value="Monaragala">Monaragala</option>
+                            <option value="Mullaitivu">Mullaitivu</option>
+                            <option value="Nuwara Eliya">Nuwara Eliya</option>
+                            <option value="Polonnaruwa">Polonnaruwa</option>
+                            <option value="Puttalam">Puttalam</option>
+                            <option value="Ratnapura">Ratnapura</option>
+                            <option value="Trincomalee">Trincomalee</option>
+                            <option value="Vavuniya">Vavuniya</option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- Password -->
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter a password"
+                            minlength="6"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+
+                        <label for="confirm_password">
+                            Confirm Password
+                        </label>
+
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            placeholder="Re-enter your password"
+                            minlength="6"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Create Account Button -->
+                    <button
+                        type="submit"
+                        class="auth-button"
+                        id="registerButton"
+                    >
+                        Create Account
+                    </button>
+
+                </form>
+
+
+                <p class="auth-link">
+
+                    Already have an account?
+
+                    <a href="/login.html">
+                        Login here
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         SUCCESS POPUP
+    ====================================== -->
+
+    <div
+        id="successModal"
+        class="success-modal"
+    >
+
+        <div class="success-modal-content">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h2>
+                Account Created!
+            </h2>
+
+            <p>
+                Your farmer account has been created successfully.
+                You can now login to AgriSmartSL.
+            </p>
+
+            <button
+                type="button"
+                class="success-login-button"
+                id="continueLoginButton"
+            >
+                Continue to Login
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         REGISTRATION JAVASCRIPT
+    ====================================== -->
+
+    <script>
+
+        const registerForm =
+            document.getElementById('registerForm');
+
+        const registerMessage =
+            document.getElementById('registerMessage');
+
+        const registerButton =
+            document.getElementById('registerButton');
+
+        const successModal =
+            document.getElementById('successModal');
+
+        const continueLoginButton =
+            document.getElementById('continueLoginButton');
+
+
+        registerForm.addEventListener(
+            'submit',
+            async function (event) {
+
+                // Prevent normal page submission
+                event.preventDefault();
+
+
+                // Get form values
+                const fullName =
+                    document.getElementById('full_name')
+                        .value.trim();
+
+                const email =
+                    document.getElementById('email')
+                        .value.trim();
+
+                const phone =
+                    document.getElementById('phone')
+                        .value.trim();
+
+                const district =
+                    document.getElementById('district')
+                        .value;
+
+                const password =
+                    document.getElementById('password')
+                        .value;
+
+                const confirmPassword =
+                    document.getElementById('confirm_password')
+                        .value;
+
+
+                // Clear previous message
+                registerMessage.textContent = '';
+
+                registerMessage.className =
+                    'form-message';
+
+
+                // Check passwords before sending to server
+                if (password !== confirmPassword) {
+
+                    registerMessage.textContent =
+                        'Passwords do not match.';
+
+                    registerMessage.className =
+                        'form-message error';
+
+                    return;
+                }
+
+
+                // Disable button during registration
+                registerButton.disabled = true;
+
+                registerButton.textContent =
+                    'Creating Account...';
+
+
+                try {
+
+                    const response =
+                        await fetch('/register', {
+
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+
+                            body: JSON.stringify({
+
+                                full_name: fullName,
+
+                                email: email,
+
+                                phone: phone,
+
+                                district: district,
+
+                                password: password,
+
+                                confirm_password:
+                                    confirmPassword
+                            })
+
+                        });
+
+
+                    const data =
+                        await response.json();
+
+
+                    // Successful registration
+                    if (data.success) {
+
+                        // Clear form
+                        registerForm.reset();
+
+                        // Show professional popup
+                        successModal.classList.add(
+                            'show'
+                        );
+
+                    }
+
+                    // Registration failed
+                    else {
+
+                        registerMessage.textContent =
+                            data.message;
+
+                        registerMessage.className =
+                            'form-message error';
+
+                        registerButton.disabled =
+                            false;
+
+                        registerButton.textContent =
+                            'Create Account';
+                    }
+
+
+                } catch (error) {
+
+                    console.error(
+                        'Registration error:',
+                        error
+                    );
+
+                    registerMessage.textContent =
+                        'Unable to connect to the server. Please try again.';
+
+                    registerMessage.className =
+                        'form-message error';
+
+                    registerButton.disabled =
+                        false;
+
+                    registerButton.textContent =
+                        'Create Account';
+                }
+
+            }
+        );
+
+
+        // Continue to Login button
+        continueLoginButton.addEventListener(
+            'click',
+            function () {
+
+                window.location.href =
+                    '/login.html';
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>

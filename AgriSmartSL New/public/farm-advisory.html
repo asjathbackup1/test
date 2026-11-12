@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Farm Advisory - AgriSmartSL</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+</head>
+
+
+<body class="dashboard-body">
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <h2>AgriSmartSL</h2>
+
+            <p>Farmer Portal</p>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a href="/farmer-dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="/weather.html">
+                Weather Information
+            </a>
+
+            <a href="/crop-recommendation.html">
+                Crop Recommendations
+            </a>
+
+            <a
+                href="/farm-advisory.html"
+                class="active"
+            >
+                Farm Advisory
+            </a>
+
+            <a href="/farmer-profile.html">
+                My Profile
+            </a>
+
+            <a
+                href="/logout"
+                class="logout-link"
+            >
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main class="dashboard-main">
+
+
+        <!-- Header -->
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>Farm Advisory</h1>
+
+                <p>
+                    Practical agricultural guidance
+                    for better farming decisions
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-user">
+
+                <div class="user-avatar">
+                    F
+                </div>
+
+                <div>
+
+                    <span id="headerFarmerName">
+                        Farmer Account
+                    </span>
+
+                    <small>
+                        Farmer
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- Page Content -->
+
+        <section class="dashboard-content">
+
+
+            <!-- Advisory Banner -->
+
+            <div class="advisory-banner">
+
+                <div>
+
+                    <span class="advisory-banner-label">
+                        AGRICULTURAL GUIDANCE
+                    </span>
+
+                    <h2>
+                        Farm Advisory Centre
+                    </h2>
+
+                    <p>
+                        Explore practical farming advice
+                        to support crop management,
+                        irrigation, soil care and other
+                        important farming activities.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Heading and Search -->
+
+            <div class="advisory-toolbar">
+
+                <div>
+
+                    <h2>
+                        Farming Advice
+                    </h2>
+
+                    <p>
+                        Browse available agricultural
+                        advisory information.
+                    </p>
+
+                </div>
+
+
+                <div class="advisory-search">
+
+                    <input
+                        type="text"
+                        id="advisorySearch"
+                        placeholder="Search farming advice..."
+                    >
+
+                </div>
+
+            </div>
+
+
+            <!-- Category Filters -->
+
+            <div
+                class="advisory-filters"
+                id="advisoryFilters"
+            >
+
+                <button
+                    class="advisory-filter active"
+                    data-category="All"
+                >
+                    All Advice
+                </button>
+
+            </div>
+
+
+            <!-- Message -->
+
+            <div
+                id="advisoryMessage"
+                class="advisory-message"
+            >
+                Loading farm advisory information...
+            </div>
+
+
+            <!-- Advisory Cards -->
+
+            <div
+                id="advisoryContainer"
+                class="advisory-grid"
+            >
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================
+         JAVASCRIPT
+    ====================================== -->
+
+    <script>
+
+        let allAdvisories = [];
+
+        let selectedCategory = 'All';
+
+
+        // =====================================
+        // LOAD CURRENT FARMER
+        // =====================================
+
+        async function loadCurrentUser() {
+
+            try {
+
+                const response =
+                    await fetch('/current-user');
+
+
+                if (!response.ok) {
+
+                    window.location.href =
+                        '/login.html';
+
+                    return;
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (
+                    !data.success ||
+                    !data.user ||
+                    data.user.role !== 'farmer'
+                ) {
+
+                    window.location.href =
+                        '/login.html';
+
+                    return;
+                }
+
+
+                document.getElementById(
+                    'headerFarmerName'
+                ).textContent =
+                    data.user.full_name;
+
+
+                const firstLetter =
+                    data.user.full_name
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                document.querySelector(
+                    '.user-avatar'
+                ).textContent =
+                    firstLetter;
+
+
+            } catch (error) {
+
+                console.error(
+                    'Unable to load farmer:',
+                    error
+                );
+
+
+                window.location.href =
+                    '/login.html';
+            }
+        }
+
+
+
+        // =====================================
+        // LOAD ADVISORY TIPS
+        // =====================================
+
+        async function loadAdvisories() {
+
+            const message =
+                document.getElementById(
+                    'advisoryMessage'
+                );
+
+
+            try {
+
+                const response =
+                    await fetch(
+                        '/api/advisory-tips'
+                    );
+
+
+                if (response.status === 401) {
+
+                    window.location.href =
+                        '/login.html';
+
+                    return;
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                if (!data.success) {
+
+                    message.textContent =
+                        data.message ||
+                        'Unable to load farm advisory information.';
+
+                    message.className =
+                        'advisory-message error';
+
+                    return;
+                }
+
+
+                allAdvisories =
+                    data.advisories || [];
+
+
+                createCategoryFilters();
+
+                displayAdvisories();
+
+
+            } catch (error) {
+
+                console.error(
+                    'Farm advisory error:',
+                    error
+                );
+
+
+                message.textContent =
+                    'Unable to connect to the server. Please try again.';
+
+                message.className =
+                    'advisory-message error';
+            }
+        }
+
+
+
+        // =====================================
+        // CREATE CATEGORY FILTERS
+        // =====================================
+
+        function createCategoryFilters() {
+
+            const filterContainer =
+                document.getElementById(
+                    'advisoryFilters'
+                );
+
+
+            const categories = [
+                ...new Set(
+                    allAdvisories
+                        .map(item => item.category)
+                        .filter(Boolean)
+                )
+            ];
+
+
+            filterContainer.innerHTML = '';
+
+
+            const allButton =
+                document.createElement('button');
+
+
+            allButton.textContent =
+                'All Advice';
+
+
+            allButton.className =
+                'advisory-filter active';
+
+
+            allButton.dataset.category =
+                'All';
+
+
+            filterContainer.appendChild(
+                allButton
+            );
+
+
+            categories.forEach(category => {
+
+                const button =
+                    document.createElement(
+                        'button'
+                    );
+
+
+                button.textContent =
+                    category;
+
+
+                button.className =
+                    'advisory-filter';
+
+
+                button.dataset.category =
+                    category;
+
+
+                filterContainer.appendChild(
+                    button
+                );
+
+            });
+
+
+            addFilterEvents();
+        }
+
+
+
+        // =====================================
+        // CATEGORY FILTER EVENTS
+        // =====================================
+
+        function addFilterEvents() {
+
+            const buttons =
+                document.querySelectorAll(
+                    '.advisory-filter'
+                );
+
+
+            buttons.forEach(button => {
+
+                button.addEventListener(
+                    'click',
+                    function () {
+
+                        selectedCategory =
+                            this.dataset.category;
+
+
+                        buttons.forEach(item => {
+
+                            item.classList.remove(
+                                'active'
+                            );
+
+                        });
+
+
+                        this.classList.add(
+                            'active'
+                        );
+
+
+                        displayAdvisories();
+                    }
+                );
+
+            });
+        }
+
+
+
+        // =====================================
+        // DISPLAY ADVISORY CARDS
+        // =====================================
+
+        function displayAdvisories() {
+
+            const container =
+                document.getElementById(
+                    'advisoryContainer'
+                );
+
+
+            const message =
+                document.getElementById(
+                    'advisoryMessage'
+                );
+
+
+            const searchValue =
+                document.getElementById(
+                    'advisorySearch'
+                )
+                .value
+                .trim()
+                .toLowerCase();
+
+
+            const filtered =
+                allAdvisories.filter(
+                    advisory => {
+
+                        const categoryMatch =
+                            selectedCategory ===
+                                'All' ||
+                            advisory.category ===
+                                selectedCategory;
+
+
+                        const title =
+                            advisory.title
+                                .toLowerCase();
+
+
+                        const description =
+                            advisory.description
+                                .toLowerCase();
+
+
+                        const searchMatch =
+                            title.includes(
+                                searchValue
+                            ) ||
+                            description.includes(
+                                searchValue
+                            );
+
+
+                        return (
+                            categoryMatch &&
+                            searchMatch
+                        );
+                    }
+                );
+
+
+            container.innerHTML = '';
+
+
+            if (filtered.length === 0) {
+
+                message.textContent =
+                    allAdvisories.length === 0
+                        ? 'No farm advisory information is available at the moment.'
+                        : 'No farming advice matches your search.';
+
+
+                message.className =
+                    'advisory-message';
+
+
+                return;
+            }
+
+
+            message.textContent = '';
+
+            message.className =
+                'advisory-message';
+
+
+            filtered.forEach(advisory => {
+
+                const card =
+                    document.createElement(
+                        'article'
+                    );
+
+
+                card.className =
+                    'advisory-card';
+
+
+                const category =
+                    document.createElement(
+                        'span'
+                    );
+
+
+                category.className =
+                    'advisory-category';
+
+
+                category.textContent =
+                    advisory.category ||
+                    'General Advice';
+
+
+                const title =
+                    document.createElement(
+                        'h3'
+                    );
+
+
+                title.textContent =
+                    advisory.title;
+
+
+                const description =
+                    document.createElement(
+                        'p'
+                    );
+
+
+                description.textContent =
+                    advisory.description;
+
+
+                const footer =
+                    document.createElement(
+                        'div'
+                    );
+
+
+                footer.className =
+                    'advisory-card-footer';
+
+
+                footer.textContent =
+                    'AgriSmartSL Farm Advisory';
+
+
+                card.appendChild(
+                    category
+                );
+
+
+                card.appendChild(
+                    title
+                );
+
+
+                card.appendChild(
+                    description
+                );
+
+
+                card.appendChild(
+                    footer
+                );
+
+
+                container.appendChild(
+                    card
+                );
+
+            });
+        }
+
+
+
+        // =====================================
+        // SEARCH
+        // =====================================
+
+        document.getElementById(
+            'advisorySearch'
+        ).addEventListener(
+            'input',
+            displayAdvisories
+        );
+
+
+
+        // =====================================
+        // START PAGE
+        // =====================================
+
+        loadCurrentUser();
+
+        loadAdvisories();
+
+    </script>
+
+</body>
+
+</html>

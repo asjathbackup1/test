@@ -1,0 +1,3540 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* =========================================
+   REGISTRATION SUCCESS POPUP
+========================================= */
+
+.success-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+    box-sizing: border-box;
+
+    z-index: 9999;
+}
+
+
+/* Show Popup */
+.success-modal.show {
+    display: flex;
+}
+
+
+/* Popup Box */
+.success-modal-content {
+    width: 100%;
+    max-width: 420px;
+
+    background: #ffffff;
+
+    padding: 35px 30px;
+
+    border-radius: 16px;
+
+    text-align: center;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.25);
+
+    animation: popupAnimation 0.3s ease;
+}
+
+
+/* Success Tick */
+.success-icon {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8f5e9;
+
+    color: #1f8a4c;
+
+    font-size: 38px;
+    font-weight: bold;
+}
+
+
+/* Popup Heading */
+.success-modal-content h2 {
+    margin-bottom: 12px;
+
+    color: #14532d;
+
+    font-size: 26px;
+}
+
+
+/* Popup Text */
+.success-modal-content p {
+    margin-bottom: 25px;
+
+    color: #555555;
+
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* Continue Button */
+.success-login-button {
+    width: 100%;
+
+    padding: 13px 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    background: #21854b;
+
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.success-login-button:hover {
+    background: #176b3a;
+}
+
+
+/* Popup Animation */
+@keyframes popupAnimation {
+
+    from {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================
+   LOGIN SUCCESS / ERROR MESSAGE
+========================================= */
+
+.form-message {
+    display: none;
+    width: 100%;
+    margin-bottom: 18px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* Show message when it contains text */
+.form-message:not(:empty) {
+    display: block;
+}
+
+/* Success Message */
+.form-message.success {
+    background-color: #e8f5e9;
+    border: 1px solid #a5d6a7;
+    color: #1b5e20;
+}
+
+/* Error Message */
+.form-message.error {
+    background-color: #ffebee;
+    border: 1px solid #ef9a9a;
+    color: #b71c1c;
+}
+
+/* Disabled Login Button */
+.auth-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.auth-body {
+    background: #f4f8f3;
+}
+
+.auth-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.auth-left {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px;
+    color: white;
+    background:
+        linear-gradient(
+            rgba(22, 90, 53, 0.85),
+            rgba(17, 70, 42, 0.9)
+        ),
+        url("../images/agriculture-bg.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.brand {
+    max-width: 500px;
+    text-align: center;
+}
+
+.brand h1 {
+    margin-bottom: 20px;
+    font-size: 48px;
+}
+
+.brand p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+.auth-right {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 430px;
+    padding: 40px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.1);
+}
+
+.auth-card h2 {
+    margin-bottom: 10px;
+    color: #174d2f;
+    font-size: 32px;
+}
+
+.auth-subtitle {
+    margin-bottom: 30px;
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+}
+
+.form-group input:focus {
+    border-color: #258451;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    background: #1f7a48;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.auth-button:hover {
+    background: #17643a;
+}
+
+.auth-link {
+    margin-top: 25px;
+    text-align: center;
+    color: #555;
+}
+
+.auth-link a {
+    color: #1f7a48;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.auth-link a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+    .auth-left {
+        display: none;
+    }
+
+    .auth-right {
+        width: 100%;
+    }
+
+    .auth-card {
+        padding: 30px 25px;
+    }
+}
+
+.registration-card {
+    max-width: 500px;
+    margin: 30px 0;
+}
+
+.form-group select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    font-size: 15px;
+    background: white;
+}
+
+.form-group select:focus {
+    border-color: #258451;
+}
+
+/* =========================================
+   FARMER DASHBOARD
+========================================= */
+
+.dashboard-body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    background: #f4f7f5;
+    font-family: Arial, sans-serif;
+    color: #1f2937;
+}
+
+
+/* =========================================
+   SIDEBAR
+========================================= */
+
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: #174f35;
+    color: white;
+    padding: 28px 20px;
+    box-sizing: border-box;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+.sidebar-logo {
+    padding: 0 10px 25px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+
+.sidebar-logo h2 {
+    margin: 0;
+    font-size: 27px;
+    font-weight: 700;
+}
+
+
+.sidebar-logo p {
+    margin: 6px 0 0;
+    color: #c9e7d8;
+    font-size: 13px;
+}
+
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+
+.sidebar-menu a {
+    color: #f3f8f5;
+    text-decoration: none;
+
+    padding: 13px 15px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    transition: background 0.25s ease,
+                transform 0.2s ease;
+}
+
+
+.sidebar-menu a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateX(3px);
+}
+
+
+.sidebar-menu a.active {
+    background: #258451;
+    color: white;
+}
+
+
+.sidebar-menu .logout-link {
+    margin-top: auto;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+.sidebar-menu .logout-link:hover {
+    background: rgba(255, 255, 255, 0.16);
+}
+
+
+/* =========================================
+   MAIN DASHBOARD AREA
+========================================= */
+
+.dashboard-main {
+    flex: 1;
+    min-width: 0;
+    margin-left: 260px;
+}
+
+
+/* =========================================
+   TOP HEADER
+========================================= */
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: white;
+
+    padding: 20px 32px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+
+.dashboard-header h1 {
+    margin: 0;
+    font-size: 25px;
+    color: #1f2937;
+}
+
+
+.dashboard-header p {
+    margin: 5px 0 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+
+/* Farmer Account */
+
+.dashboard-user {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    background: #f0f8f4;
+
+    border: 1px solid #d8eadf;
+
+    padding: 8px 14px 8px 9px;
+
+    border-radius: 30px;
+}
+
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #258451;
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
+.dashboard-user span {
+    display: block;
+
+    color: #174f35;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+.dashboard-user small {
+    display: block;
+
+    margin-top: 2px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+    font-weight: normal;
+}
+
+
+/* =========================================
+   DASHBOARD CONTENT
+========================================= */
+
+.dashboard-content {
+    padding: 30px 32px 40px;
+
+    max-width: 1400px;
+
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   WELCOME BANNER
+========================================= */
+
+.welcome-banner {
+    background:
+        linear-gradient(
+            135deg,
+            #258451,
+            #174f35
+        );
+
+    color: white;
+
+    padding: 32px;
+
+    border-radius: 16px;
+
+    margin-bottom: 30px;
+
+    box-shadow:
+        0 8px 22px rgba(23, 79, 53, 0.15);
+}
+
+
+.welcome-small {
+    margin: 0 0 7px !important;
+
+    color: #d7f0e2;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.5px;
+}
+
+
+.welcome-banner h2 {
+    margin: 0 0 10px;
+
+    font-size: 28px;
+}
+
+
+.welcome-banner p {
+    margin: 0;
+
+    max-width: 700px;
+
+    line-height: 1.7;
+
+    color: #edf8f2;
+}
+
+
+/* =========================================
+   SECTION HEADING
+========================================= */
+
+.dashboard-section-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 18px;
+}
+
+
+.dashboard-section-heading h2 {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 21px;
+}
+
+
+.dashboard-section-heading p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* =========================================
+   SERVICE CARDS
+========================================= */
+
+.dashboard-cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 30px;
+}
+
+
+.dashboard-card {
+    background: white;
+
+    padding: 23px;
+
+    border-radius: 14px;
+
+    border: 1px solid #e3e9e5;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+
+    border-color: #b9d9c7;
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+.card-icon {
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 18px;
+
+    background: #e8f5ed;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+}
+
+
+.dashboard-card h3 {
+    margin: 0 0 10px;
+
+    color: #174f35;
+
+    font-size: 17px;
+}
+
+
+.dashboard-card p {
+    min-height: 66px;
+
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.dashboard-card a {
+    display: inline-block;
+
+    margin-top: 17px;
+
+    color: #258451;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.dashboard-card a:hover {
+    color: #174f35;
+}
+
+
+/* =========================================
+   INFORMATION CARDS
+========================================= */
+
+.dashboard-info-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+.dashboard-info-card {
+    background: white;
+
+    padding: 24px;
+
+    border: 1px solid #e3e9e5;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+
+.info-card-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    margin-bottom: 12px;
+}
+
+
+.info-label {
+    display: inline-block;
+
+    margin-bottom: 7px;
+
+    color: #258451;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+
+.dashboard-info-card h3 {
+    margin: 0;
+
+    color: #174f35;
+
+    font-size: 18px;
+}
+
+
+.dashboard-info-card p {
+    margin: 0 0 16px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.dashboard-info-card a {
+    color: #258451;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.dashboard-info-card a:hover {
+    color: #174f35;
+}
+
+
+/* =========================================
+   DASHBOARD NUMBER
+========================================= */
+
+.dashboard-number {
+    margin: 12px 0;
+
+    font-size: 34px;
+
+    font-weight: bold;
+
+    color: #258451;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 1150px) {
+
+    .dashboard-cards {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .dashboard-body {
+        display: block;
+    }
+
+
+    .sidebar {
+        position: relative;
+
+        width: 100%;
+
+        min-height: auto;
+    }
+
+
+    .sidebar-menu .logout-link {
+        margin-top: 0;
+    }
+
+
+    .dashboard-main {
+        margin-left: 0;
+    }
+
+
+    .dashboard-header {
+        align-items: flex-start;
+
+        gap: 15px;
+
+        flex-direction: column;
+
+        padding: 20px;
+    }
+
+
+    .dashboard-content {
+        padding: 20px;
+    }
+
+
+    .dashboard-cards {
+        grid-template-columns: 1fr;
+    }
+
+
+    .dashboard-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .welcome-banner {
+        padding: 25px;
+    }
+
+
+    .welcome-banner h2 {
+        font-size: 24px;
+    }
+}
+
+.weather-search-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+}
+
+.weather-search-card h2 {
+    margin-top: 0;
+    color: #174f35;
+}
+
+.weather-form {
+    display: flex;
+    align-items: end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.weather-form .form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.weather-button {
+    width: auto;
+    min-width: 160px;
+}
+
+.weather-result {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+.weather-main-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #258451, #174f35);
+    color: white;
+}
+
+.weather-main-card h2 {
+    margin: 8px 0;
+    font-size: 48px;
+}
+
+.weather-main-card img {
+    width: 110px;
+    height: 110px;
+}
+
+.weather-location {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.weather-details-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.weather-detail-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.weather-detail-card h3 {
+    margin-top: 0;
+    color: #174f35;
+    font-size: 15px;
+}
+
+.weather-detail-card p {
+    margin-bottom: 0;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+@media (max-width: 800px) {
+    .weather-form {
+        display: block;
+    }
+
+    .weather-button {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+    .weather-details-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+.recommendation-input-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    margin-bottom: 24px;
+}
+
+.condition-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.condition-grid div {
+    background: #eef7f1;
+    padding: 18px;
+    border-radius: 10px;
+}
+
+.condition-grid strong {
+    color: #174f35;
+}
+
+.condition-grid p {
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recommendation-button {
+    max-width: 260px;
+}
+
+.recommendation-results {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.recommendation-card {
+    background: white;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.recommendation-card h2 {
+    margin-top: 0;
+    color: #174f35;
+}
+
+.recommendation-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 18px 0;
+    color: #4b5563;
+}
+
+.recommendation-note {
+    padding: 14px;
+    background: #eef7f1;
+    border-radius: 8px;
+    color: #174f35;
+}
+
+@media (max-width: 900px) {
+    .condition-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .recommendation-results {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   FARM ADVISORY PAGE
+========================================= */
+
+.advisory-banner {
+    background: linear-gradient(
+        135deg,
+        #eef8f2,
+        #e3f2e9
+    );
+
+    border: 1px solid #d2e8db;
+
+    padding: 30px;
+
+    border-radius: 16px;
+
+    margin-bottom: 30px;
+}
+
+
+.advisory-banner-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    color: #258451;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+
+.advisory-banner h2 {
+    margin: 0 0 10px;
+
+    color: #174f35;
+
+    font-size: 27px;
+}
+
+
+.advisory-banner p {
+    max-width: 750px;
+
+    margin: 0;
+
+    color: #52645a;
+
+    line-height: 1.7;
+}
+
+
+/* Toolbar */
+
+.advisory-toolbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+.advisory-toolbar h2 {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 21px;
+}
+
+
+.advisory-toolbar p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+/* Search */
+
+.advisory-search {
+    width: 100%;
+
+    max-width: 330px;
+}
+
+
+.advisory-search input {
+    width: 100%;
+
+    padding: 12px 15px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d1d9d4;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    background: white;
+
+    font-size: 14px;
+}
+
+
+.advisory-search input:focus {
+    border-color: #258451;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 132, 81, 0.08);
+}
+
+
+/* Category Filters */
+
+.advisory-filters {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-bottom: 25px;
+}
+
+
+.advisory-filter {
+    border: 1px solid #d5e1da;
+
+    background: white;
+
+    color: #4b5e53;
+
+    padding: 9px 15px;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    transition: 0.2s ease;
+}
+
+
+.advisory-filter:hover {
+    border-color: #258451;
+
+    color: #258451;
+}
+
+
+.advisory-filter.active {
+    background: #258451;
+
+    border-color: #258451;
+
+    color: white;
+}
+
+
+/* Advisory Grid */
+
+.advisory-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+/* Advisory Card */
+
+.advisory-card {
+    display: flex;
+
+    flex-direction: column;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 14px;
+
+    padding: 24px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease;
+}
+
+
+.advisory-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #b9d9c7;
+
+    box-shadow:
+        0 9px 22px rgba(0, 0, 0, 0.07);
+}
+
+
+.advisory-category {
+    align-self: flex-start;
+
+    display: inline-block;
+
+    margin-bottom: 14px;
+
+    padding: 6px 10px;
+
+    background: #e8f5ed;
+
+    color: #258451;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.4px;
+}
+
+
+.advisory-card h3 {
+    margin: 0 0 11px;
+
+    color: #174f35;
+
+    font-size: 18px;
+}
+
+
+.advisory-card p {
+    flex: 1;
+
+    margin: 0;
+
+    color: #647067;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.advisory-card-footer {
+    margin-top: 20px;
+
+    padding-top: 14px;
+
+    border-top: 1px solid #edf0ee;
+
+    color: #8a958e;
+
+    font-size: 12px;
+}
+
+
+/* Loading / Empty / Error Message */
+
+.advisory-message {
+    margin-bottom: 20px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+.advisory-message:empty {
+    display: none;
+}
+
+
+.advisory-message.error {
+    padding: 12px 15px;
+
+    background: #ffebee;
+
+    border: 1px solid #ef9a9a;
+
+    border-radius: 8px;
+
+    color: #b71c1c;
+}
+
+
+/* Responsive */
+
+@media (max-width: 900px) {
+
+    .advisory-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .advisory-toolbar {
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+
+    .advisory-search {
+        max-width: 100%;
+    }
+}
+
+/* =========================================
+   WEATHER INFORMATION PAGE
+========================================= */
+
+.weather-page-banner {
+    padding: 30px;
+
+    margin-bottom: 25px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #eef8f2,
+            #e3f2e9
+        );
+
+    border: 1px solid #d2e8db;
+
+    border-radius: 16px;
+}
+
+
+.weather-banner-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    color: #258451;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+
+.weather-page-banner h2 {
+    margin: 0 0 10px;
+
+    color: #174f35;
+
+    font-size: 27px;
+}
+
+
+.weather-page-banner p {
+    max-width: 750px;
+
+    margin: 0;
+
+    color: #52645a;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   WEATHER SEARCH
+========================================= */
+
+.weather-search-card {
+    margin-bottom: 25px;
+
+    padding: 24px;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+
+.weather-search-heading h2 {
+    margin: 0;
+
+    color: #174f35;
+
+    font-size: 20px;
+}
+
+
+.weather-search-heading p {
+    margin: 6px 0 20px;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.weather-form {
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 15px;
+}
+
+
+.weather-district-field {
+    flex: 1;
+}
+
+
+.weather-district-field label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #374151;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.weather-district-field select {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    box-sizing: border-box;
+
+    border: 1px solid #d1d9d4;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #374151;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+
+.weather-district-field select:focus {
+    border-color: #258451;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 132, 81, 0.08);
+}
+
+
+.weather-check-button {
+    min-width: 150px;
+
+    padding: 13px 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #258451;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+
+.weather-check-button:hover {
+    background: #174f35;
+}
+
+
+.weather-check-button:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+}
+
+
+/* =========================================
+   WEATHER MESSAGES
+========================================= */
+
+.weather-message {
+    margin-top: 15px;
+
+    font-size: 14px;
+}
+
+
+.weather-message:empty {
+    display: none;
+}
+
+
+.weather-message.loading {
+    color: #6b7280;
+}
+
+
+.weather-message.error {
+    padding: 11px 14px;
+
+    background: #ffebee;
+
+    border: 1px solid #ef9a9a;
+
+    border-radius: 8px;
+
+    color: #b71c1c;
+}
+
+
+/* =========================================
+   WEATHER RESULTS
+========================================= */
+
+.weather-result {
+    margin-top: 25px;
+}
+
+
+.weather-result.hidden {
+    display: none;
+}
+
+
+.weather-overview-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.3fr 1fr;
+
+    gap: 20px;
+
+    margin-bottom: 30px;
+}
+
+
+/* Main Weather Card */
+
+.weather-main-card {
+    min-height: 230px;
+
+    display: flex;
+
+    align-items: center;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    background:
+        linear-gradient(
+            135deg,
+            #258451,
+            #174f35
+        );
+
+    color: white;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 8px 22px rgba(23, 79, 53, 0.15);
+}
+
+
+.weather-current-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+
+.weather-main-card .weather-current-label {
+    color: #d8efe2;
+}
+
+
+.weather-location {
+    margin: 0 0 5px;
+
+    color: #e7f5ed;
+
+    font-size: 16px;
+
+    font-weight: 600;
+}
+
+
+.weather-temperature-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+.weather-temperature-row h2 {
+    margin: 0;
+
+    font-size: 58px;
+
+    line-height: 1;
+}
+
+
+.weather-temperature-row img {
+    width: 90px;
+
+    height: 90px;
+}
+
+
+.weather-description {
+    margin: 8px 0 0;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: 500;
+}
+
+
+/* Weather Summary */
+
+.weather-summary-card {
+    min-height: 230px;
+
+    padding: 30px;
+
+    box-sizing: border-box;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 16px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+
+.weather-summary-card .weather-current-label {
+    color: #258451;
+}
+
+
+.weather-summary-card h3 {
+    margin: 5px 0 12px;
+
+    color: #174f35;
+
+    font-size: 21px;
+}
+
+
+.weather-summary-card p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.weather-update-status {
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 25px;
+
+    color: #52645a;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.weather-status-dot {
+    width: 9px;
+
+    height: 9px;
+
+    background: #258451;
+
+    border-radius: 50%;
+}
+
+
+/* =========================================
+   WEATHER DETAIL SECTION
+========================================= */
+
+.weather-section-title {
+    margin-bottom: 17px;
+}
+
+
+.weather-section-title h2 {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 21px;
+}
+
+
+.weather-section-title p {
+    margin: 5px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+.weather-details-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 16px;
+
+    margin-bottom: 30px;
+}
+
+
+.weather-detail-card {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 20px;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 13px;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.035);
+}
+
+
+.weather-detail-icon {
+    width: 42px;
+
+    height: 42px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #e8f5ed;
+
+    border-radius: 10px;
+
+    font-size: 20px;
+}
+
+
+.weather-detail-card h3 {
+    margin: 0 0 5px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.weather-detail-card p {
+    margin: 0;
+
+    color: #174f35;
+
+    font-size: 19px;
+
+    font-weight: 700;
+}
+
+
+/* =========================================
+   FARMING WEATHER GUIDANCE
+========================================= */
+
+.weather-farming-guide {
+    display: flex;
+
+    gap: 18px;
+
+    padding: 24px;
+
+    background: #f0f8f4;
+
+    border: 1px solid #d2e8db;
+
+    border-radius: 14px;
+}
+
+
+.weather-guide-icon {
+    width: 48px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: white;
+
+    border-radius: 12px;
+
+    font-size: 23px;
+}
+
+
+.weather-guide-label {
+    display: inline-block;
+
+    margin-bottom: 5px;
+
+    color: #258451;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+
+.weather-farming-guide h3 {
+    margin: 0 0 8px;
+
+    color: #174f35;
+
+    font-size: 18px;
+}
+
+
+.weather-farming-guide p {
+    max-width: 750px;
+
+    margin: 0 0 12px;
+
+    color: #52645a;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.weather-farming-guide a {
+    color: #258451;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.weather-farming-guide a:hover {
+    color: #174f35;
+}
+
+
+/* =========================================
+   WEATHER RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 1050px) {
+
+    .weather-details-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .weather-overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .weather-form {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .weather-check-button {
+        width: 100%;
+    }
+
+
+    .weather-details-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .weather-temperature-row h2 {
+        font-size: 48px;
+    }
+
+
+    .weather-farming-guide {
+        flex-direction: column;
+    }
+
+}
+
+/* =========================================
+   CROP RECOMMENDATION PAGE
+========================================= */
+
+.recommendation-banner {
+    padding: 30px;
+    margin-bottom: 25px;
+
+    background: linear-gradient(
+        135deg,
+        #eef8f2,
+        #e3f2e9
+    );
+
+    border: 1px solid #d2e8db;
+    border-radius: 16px;
+}
+
+
+.recommendation-banner-label {
+    display: inline-block;
+
+    margin-bottom: 8px;
+
+    color: #258451;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+
+.recommendation-banner h2 {
+    margin: 0 0 10px;
+
+    color: #174f35;
+
+    font-size: 27px;
+}
+
+
+.recommendation-banner p {
+    max-width: 800px;
+
+    margin: 0;
+
+    color: #52645a;
+
+    font-size: 15px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   CONDITIONS CONTAINER
+========================================= */
+
+.recommendation-condition-card {
+    padding: 25px;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+
+.recommendation-section-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    margin-bottom: 22px;
+}
+
+
+.recommendation-section-heading h2 {
+    margin: 0;
+
+    color: #174f35;
+
+    font-size: 21px;
+}
+
+
+.recommendation-section-heading p {
+    margin: 6px 0 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.condition-status {
+    flex-shrink: 0;
+
+    padding: 7px 11px;
+
+    background: #e8f5ed;
+
+    color: #258451;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================
+   CONDITION CARDS
+========================================= */
+
+.condition-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 15px;
+
+    margin-bottom: 22px;
+}
+
+
+.condition-card {
+    min-height: 85px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    padding: 17px;
+
+    box-sizing: border-box;
+
+    background: #f4faf6;
+
+    border: 1px solid #e1eee6;
+
+    border-radius: 12px;
+}
+
+
+.condition-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: white;
+
+    color: #258451;
+
+    border-radius: 10px;
+
+    font-size: 19px;
+}
+
+
+.condition-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+
+    font-weight: 600;
+}
+
+
+.condition-card strong {
+    display: block;
+
+    color: #174f35;
+
+    font-size: 15px;
+
+    line-height: 1.35;
+}
+
+
+/* =========================================
+   RULE INFORMATION
+========================================= */
+
+.recommendation-rule-info {
+    display: flex;
+
+    gap: 13px;
+
+    padding: 16px 18px;
+
+    margin-bottom: 22px;
+
+    background: #f8faf9;
+
+    border-left: 4px solid #258451;
+
+    border-radius: 8px;
+}
+
+
+.rule-info-icon {
+    width: 28px;
+    height: 28px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #258451;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 13px;
+
+    font-weight: bold;
+}
+
+
+.recommendation-rule-info strong {
+    color: #174f35;
+
+    font-size: 14px;
+}
+
+
+.recommendation-rule-info p {
+    margin: 5px 0 0;
+
+    color: #647067;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+/* =========================================
+   ACTIONS
+========================================= */
+
+.recommendation-actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+}
+
+
+.recommendation-main-button {
+    padding: 13px 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #258451;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+
+.recommendation-main-button:hover:not(:disabled) {
+    background: #174f35;
+}
+
+
+.recommendation-main-button:disabled {
+    opacity: 0.6;
+
+    cursor: not-allowed;
+}
+
+
+.recommendation-profile-link {
+    padding: 11px 15px;
+
+    color: #258451;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    font-weight: 700;
+}
+
+
+.recommendation-profile-link:hover {
+    color: #174f35;
+}
+
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+.recommendation-message {
+    margin-top: 17px;
+
+    font-size: 14px;
+}
+
+
+.recommendation-message:empty {
+    display: none;
+}
+
+
+.recommendation-message.loading {
+    color: #6b7280;
+}
+
+
+.recommendation-message.success {
+    padding: 11px 14px;
+
+    background: #edf8f1;
+
+    border: 1px solid #c8e6d2;
+
+    border-radius: 8px;
+
+    color: #176b3a;
+}
+
+
+.recommendation-message.warning {
+    padding: 11px 14px;
+
+    background: #fff8e6;
+
+    border: 1px solid #f1dda5;
+
+    border-radius: 8px;
+
+    color: #795b13;
+}
+
+
+.recommendation-message.error {
+    padding: 11px 14px;
+
+    background: #ffebee;
+
+    border: 1px solid #ef9a9a;
+
+    border-radius: 8px;
+
+    color: #b71c1c;
+}
+
+
+/* =========================================
+   RESULT SECTION
+========================================= */
+
+.recommendation-result-section {
+    margin-top: 30px;
+}
+
+
+.recommendation-result-section.hidden {
+    display: none;
+}
+
+
+.recommendation-results-heading {
+    margin-bottom: 16px;
+}
+
+
+.recommendation-results-heading h2 {
+    margin: 0 0 5px;
+
+    color: #1f2937;
+
+    font-size: 22px;
+}
+
+
+.recommendation-results-heading p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+.recommendation-results {
+    display: grid;
+
+    gap: 20px;
+}
+
+
+/* =========================================
+   SUCCESSFUL CROP CARD
+========================================= */
+
+.professional-recommendation-card {
+    padding: 26px;
+
+    background: white;
+
+    border: 1px solid #dce8e1;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 16px rgba(0, 0, 0, 0.045);
+}
+
+
+.recommendation-card-top {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 20px;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid #edf1ef;
+}
+
+
+.crop-match-badge {
+    display: inline-block;
+
+    margin-bottom: 9px;
+
+    padding: 6px 10px;
+
+    background: #e8f5ed;
+
+    color: #258451;
+
+    border-radius: 20px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+
+.recommendation-card-top h2 {
+    margin: 0 0 8px;
+
+    color: #174f35;
+
+    font-size: 25px;
+}
+
+
+.recommendation-card-top p {
+    max-width: 750px;
+
+    margin: 0;
+
+    color: #647067;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.crop-match-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #258451;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 22px;
+
+    font-weight: bold;
+}
+
+
+/* Crop Rule Details */
+
+.crop-rule-details {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 15px;
+
+    padding: 20px 0;
+}
+
+
+.crop-rule-details div {
+    padding: 15px;
+
+    background: #f5faf7;
+
+    border-radius: 9px;
+}
+
+
+.crop-rule-details span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+.crop-rule-details strong {
+    color: #174f35;
+
+    font-size: 14px;
+
+    line-height: 1.4;
+}
+
+
+/* Recommendation Note */
+
+.crop-recommendation-note {
+    padding: 17px 18px;
+
+    background: #eef8f2;
+
+    border-radius: 9px;
+}
+
+
+.crop-recommendation-note strong {
+    color: #174f35;
+
+    font-size: 14px;
+}
+
+
+.crop-recommendation-note p {
+    margin: 6px 0 0;
+
+    color: #52645a;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================
+   NO MATCH RESULT
+========================================= */
+
+.no-recommendation-card {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+    padding: 25px;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+
+.no-recommendation-icon {
+    width: 46px;
+    height: 46px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #fff4d9;
+
+    color: #8a6512;
+
+    border-radius: 50%;
+
+    font-size: 21px;
+
+    font-weight: bold;
+}
+
+
+.no-recommendation-card h3 {
+    margin: 0 0 9px;
+
+    color: #174f35;
+
+    font-size: 19px;
+}
+
+
+.no-recommendation-card p {
+    margin: 0;
+
+    color: #647067;
+
+    font-size: 14px;
+
+    line-height: 1.7;
+}
+
+
+.no-recommendation-card .no-match-note {
+    margin-top: 8px;
+
+    color: #7b857f;
+
+    font-size: 13px;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+
+    .condition-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 800px) {
+
+    .recommendation-section-heading {
+        flex-direction: column;
+    }
+
+
+    .condition-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .recommendation-actions {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .recommendation-main-button {
+        width: 100%;
+    }
+
+
+    .recommendation-profile-link {
+        text-align: center;
+    }
+
+
+    .crop-rule-details {
+        grid-template-columns: 1fr;
+    }
+
+
+    .recommendation-card-top {
+        flex-direction: column;
+    }
+
+
+    .no-recommendation-card {
+        flex-direction: column;
+    }
+
+}
+
+/* =========================================
+   RECOMMENDATION HISTORY
+========================================= */
+
+.recommendation-history-section {
+    margin-top: 35px;
+    margin-bottom: 30px;
+}
+
+
+.history-heading {
+    margin-bottom: 18px;
+}
+
+
+.history-heading h2 {
+    margin: 0 0 6px;
+
+    color: #1f2937;
+
+    font-size: 22px;
+}
+
+
+.history-heading p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+.recommendation-history-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+}
+
+
+.history-card {
+    padding: 22px;
+
+    background: #ffffff;
+
+    border: 1px solid #dfe8e3;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+
+.history-card-main {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 14px;
+}
+
+
+.history-crop-icon {
+    width: 44px;
+    height: 44px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #e8f5ed;
+
+    border-radius: 10px;
+
+    font-size: 20px;
+}
+
+
+.history-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #258451;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+
+.history-crop-info h3 {
+    margin: 0 0 7px;
+
+    color: #174f35;
+
+    font-size: 20px;
+}
+
+
+.history-crop-info p {
+    margin: 0;
+
+    color: #647067;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+.history-recommendation-text {
+    margin-top: 18px;
+
+    padding: 14px;
+
+    background: #f5faf7;
+
+    border-radius: 8px;
+}
+
+
+.history-recommendation-text strong {
+    color: #174f35;
+
+    font-size: 13px;
+}
+
+
+.history-recommendation-text p {
+    margin: 5px 0 0;
+
+    color: #5f6e65;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+}
+
+
+.history-date {
+    margin-top: 15px;
+
+    padding-top: 13px;
+
+    border-top: 1px solid #edf1ef;
+
+    color: #7b857f;
+
+    font-size: 12px;
+}
+
+
+.history-empty {
+    grid-column: 1 / -1;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 22px;
+
+    background: white;
+
+    border: 1px solid #e1e8e4;
+
+    border-radius: 12px;
+
+    color: #647067;
+}
+
+
+.history-empty h3 {
+    margin: 0 0 5px;
+
+    color: #174f35;
+}
+
+
+.history-empty p {
+    margin: 0;
+
+    font-size: 13px;
+}
+
+
+.history-empty-icon {
+    font-size: 24px;
+}
+
+
+.history-loading {
+    color: #6b7280;
+
+    font-size: 14px;
+}
+
+
+@media (max-width: 900px) {
+
+    .recommendation-history-list {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =========================================
+   FARMER PROFILE
+========================================= */
+
+.profile-hero {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+
+    padding: 25px;
+
+    margin-bottom: 24px;
+
+    background: linear-gradient(
+        135deg,
+        #eaf7f0,
+        #f5fbf7
+    );
+
+    border: 1px solid #cfe8d9;
+    border-radius: 14px;
+}
+
+
+.profile-avatar {
+    width: 68px;
+    height: 68px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #258451;
+
+    color: white;
+
+    font-size: 28px;
+    font-weight: 700;
+}
+
+
+.profile-hero-info {
+    flex: 1;
+}
+
+
+.profile-label,
+.profile-section-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #258451;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 0.7px;
+}
+
+
+.profile-hero-info h2 {
+    margin: 0 0 6px;
+
+    color: #174f35;
+
+    font-size: 25px;
+}
+
+
+.profile-hero-info p {
+    margin: 0;
+
+    color: #5f6e65;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+}
+
+
+.profile-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    padding: 8px 13px;
+
+    background: white;
+
+    border: 1px solid #cfe4d7;
+
+    border-radius: 20px;
+
+    color: #24784a;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+.profile-status span {
+    width: 8px;
+    height: 8px;
+
+    background: #27a35c;
+
+    border-radius: 50%;
+}
+
+
+.profile-section-card {
+    margin-bottom: 22px;
+
+    padding: 26px;
+
+    background: white;
+
+    border: 1px solid #dfe7e2;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+
+.profile-section-heading {
+    padding-bottom: 18px;
+
+    margin-bottom: 22px;
+
+    border-bottom: 1px solid #edf1ef;
+}
+
+
+.profile-section-heading h2 {
+    margin: 0 0 5px;
+
+    color: #174f35;
+
+    font-size: 21px;
+}
+
+
+.profile-section-heading p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 13px;
+}
+
+
+.profile-form-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+
+.profile-form-grid .full-width {
+    grid-column: 1 / -1;
+}
+
+
+.profile-form-grid .form-group {
+    margin-bottom: 0;
+}
+
+
+.profile-form-grid label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #374151;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+.profile-form-grid input,
+.profile-form-grid select,
+.profile-form-grid textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px 13px;
+
+    border: 1px solid #d1d9d4;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #1f2937;
+
+    font-family: inherit;
+    font-size: 14px;
+
+    outline: none;
+
+    transition: 0.2s ease;
+}
+
+
+.profile-form-grid input:focus,
+.profile-form-grid select:focus,
+.profile-form-grid textarea:focus {
+    border-color: #258451;
+
+    box-shadow:
+        0 0 0 3px rgba(37, 132, 81, 0.08);
+}
+
+
+.profile-form-grid textarea {
+    resize: vertical;
+
+    min-height: 90px;
+}
+
+
+.profile-form-grid input[readonly] {
+    background: #f5f7f6;
+
+    color: #6b7280;
+
+    cursor: not-allowed;
+}
+
+
+.profile-field-note {
+    display: block;
+
+    margin-top: 6px;
+
+    color: #8a948e;
+
+    font-size: 11px;
+}
+
+
+.profile-save-area {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 25px;
+
+    padding: 20px 24px;
+
+    background: #f4faf6;
+
+    border: 1px solid #d7e9df;
+
+    border-radius: 12px;
+}
+
+
+.profile-save-area strong {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #174f35;
+
+    font-size: 14px;
+}
+
+
+.profile-save-area p {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 12px;
+}
+
+
+.profile-button {
+    width: auto;
+
+    min-width: 150px;
+
+    margin: 0;
+
+    flex-shrink: 0;
+}
+
+
+#profileMessage {
+    margin-bottom: 18px;
+}
+
+
+@media (max-width: 800px) {
+
+    .profile-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .profile-form-grid .full-width {
+        grid-column: auto;
+    }
+
+
+    .profile-hero {
+        align-items: flex-start;
+
+        flex-wrap: wrap;
+    }
+
+
+    .profile-status {
+        width: fit-content;
+    }
+
+
+    .profile-save-area {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .profile-button {
+        width: 100%;
+    }
+
+}
+
+.message-success {
+    margin: 0;
+    padding: 13px 16px;
+
+    background: #e8f5ec;
+    border: 1px solid #b8dfc7;
+    border-radius: 8px;
+
+    color: #176b3a;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.message-error {
+    margin: 0;
+    padding: 13px 16px;
+
+    background: #fff1f1;
+    border: 1px solid #efc1c1;
+    border-radius: 8px;
+
+    color: #b42318;
+
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* =========================================
+   FARMER DASHBOARD - FARM OVERVIEW
+========================================= */
+
+.farm-overview-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 18px;
+
+    margin-bottom: 28px;
+}
+
+
+.farm-overview-card {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    padding: 20px;
+
+    background: white;
+
+    border: 1px solid #dfe7e2;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 12px rgba(0, 0, 0, 0.04);
+}
+
+
+.overview-icon {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #edf8f1;
+
+    border-radius: 10px;
+
+    font-size: 21px;
+}
+
+
+.overview-label {
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #7a8580;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 0.5px;
+}
+
+
+.farm-overview-card h3 {
+    margin: 0;
+
+    color: #174f35;
+
+    font-size: 16px;
+}
+
+
+@media (max-width: 800px) {
+
+    .farm-overview-grid {
+        grid-template-columns: 1fr;
+    }
+
+}

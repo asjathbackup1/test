@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Information</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body { background: #f3f7f1; }
+    .page-shell { max-width: 1200px; margin: 32px auto; padding: 20px; }
+    .panel { background: #fff; border-radius: 16px; box-shadow: 0 12px 30px rgba(0,0,0,.08); padding: 22px; margin-bottom: 24px; }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .select-wrap { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .select-wrap select, .select-wrap button { padding: 12px 14px; border-radius: 10px; border: 1px solid #d6e6d3; }
+    .select-wrap button { background: #1f8a4c; color: #fff; border: none; cursor: pointer; }
+    .status { color: #555; font-weight: 600; }
+    .status.stale { color: #a85a00; }
+    .weather-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 18px; }
+    .metric { background: linear-gradient(180deg,#f8faf8,#edf7ef); border-radius: 12px; padding: 18px; border: 1px solid #dfece0; }
+    .metric small { display:block; text-transform:uppercase; color:#5d6b5e; letter-spacing:.05em; }
+    .metric strong { display:block; font-size:2rem; margin-top:8px; }
+    .forecast-row { display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 12px; }
+    .forecast-item { background:#f9fbf9; border:1px solid #e1ece3; border-radius: 10px; padding: 14px; }
+    .notice { background:#fff6db; border:1px solid #f1d58b; color:#7d4e00; padding:12px; border-radius:10px; margin-top:10px; }
+    .disclaimer { background:#eef7ff; border:1px solid #bfdaf6; color:#214b78; border-radius:10px; padding:12px; }
+    @media (max-width: 700px) { .page-shell { padding: 14px; } .topbar { align-items: flex-start; } }
+  </style>
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>AgriSmartSL</h2>
+      <p>Farmer Portal</p>
+    </div>
+    <nav class="sidebar-menu">
+      <a href="/farmer-dashboard.html">Dashboard</a>
+      <a href="/weather.html" class="active">Weather Information</a>
+      <a href="/crop-recommendation.html">Crop Recommendations</a>
+      <a href="/farm-advisory.html">Farm Advisory</a>
+      <a href="/farmer-profile.html">My Profile</a>
+      <a href="/logout" class="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <div class="page-shell">
+      <div class="panel">
+        <div class="topbar">
+          <div>
+            <h1>Weather Information</h1>
+            <p class="auth-subtitle">Current and short-term forecast for your farming district</p>
+          </div>
+          <div class="select-wrap">
+            <label for="districtSelect">District</label>
+            <select id="districtSelect">
+              <option value="Anuradhapura">Anuradhapura</option>
+              <option value="Colombo">Colombo</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Galle">Galle</option>
+              <option value="Hambantota">Hambantota</option>
+              <option value="Jaffna">Jaffna</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Badulla">Badulla</option>
+              <option value="Ratnapura">Ratnapura</option>
+              <option value="Trincomalee">Trincomalee</option>
+            </select>
+            <button id="loadWeatherBtn">Load weather</button>
+          </div>
+        </div>
+        <div id="weatherStatus" class="status">Loading weather data...</div>
+        <div id="staleNotice" class="notice" style="display:none"></div>
+        <div class="disclaimer" style="margin-top: 12px;">Decision-support tool; consult your agriculture officer.</div>
+      </div>
+
+      <div class="panel">
+        <div class="weather-grid">
+          <div class="metric"><small>Temperature</small><strong id="tempValue">--</strong></div>
+          <div class="metric"><small>Feels like</small><strong id="feelsValue">--</strong></div>
+          <div class="metric"><small>Humidity</small><strong id="humidityValue">--</strong></div>
+          <div class="metric"><small>Rain (24h)</small><strong id="rainValue">--</strong></div>
+          <div class="metric"><small>Wind speed</small><strong id="windValue">--</strong></div>
+          <div class="metric"><small>Condition</small><strong id="conditionValue">--</strong></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>5-day forecast</h2>
+        <div id="forecastList" class="forecast-row"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const districtSelect = document.getElementById('districtSelect');
+    const weatherStatus = document.getElementById('weatherStatus');
+    const staleNotice = document.getElementById('staleNotice');
+    const forecastList = document.getElementById('forecastList');
+
+    async function loadWeather() {
+      weatherStatus.textContent = 'Loading weather data...';
+      staleNotice.style.display = 'none';
+
+      try {
+        const response = await fetch(`/api/weather?district=${encodeURIComponent(districtSelect.value)}`);
+        const data = await response.json();
+
+        if (!data || !data.success && !data.weather) {
+          weatherStatus.textContent = data?.message || 'Unable to load weather data.';
+          weatherStatus.classList.add('error');
+          return;
+        }
+
+        if (data.stale) {
+          weatherStatus.textContent = 'Showing latest stored district estimate.';
+          weatherStatus.className = 'status stale';
+          staleNotice.textContent = data.message;
+          staleNotice.style.display = 'block';
+        } else {
+          weatherStatus.textContent = `${data.weather.location} • ${data.weather.description}`;
+          weatherStatus.className = 'status';
+        }
+
+        const w = data.weather;
+        document.getElementById('tempValue').textContent = `${Number(w.temperature).toFixed(1)}°C`;
+        document.getElementById('feelsValue').textContent = `${Number(w.feels_like).toFixed(1)}°C`;
+        document.getElementById('humidityValue').textContent = `${Number(w.humidity).toFixed(0)}%`;
+        document.getElementById('rainValue').textContent = `${Number(w.rainfall_24h || 0).toFixed(1)} mm`;
+        document.getElementById('windValue').textContent = `${Number(w.wind_speed || 0).toFixed(1)} m/s`;
+        document.getElementById('conditionValue').textContent = w.description || 'Current conditions';
+
+        if (Array.isArray(w.forecast) && w.forecast.length) {
+          forecastList.innerHTML = w.forecast.slice(0, 5).map((item) => `
+            <div class="forecast-item">
+              <strong>${new Date(item.date).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</strong>
+              <div>${item.description}</div>
+              <div>Temp: ${Number(item.temperature).toFixed(1)}°C</div>
+              <div>Rain: ${Number(item.rainfall || 0).toFixed(1)} mm</div>
+            </div>
+          `).join('');
+        } else {
+          forecastList.innerHTML = '<div class="forecast-item">Forecast unavailable.</div>';
+        }
+      } catch (error) {
+        weatherStatus.textContent = 'Unable to load weather data right now.';
+        weatherStatus.className = 'status';
+      }
+    }
+
+    document.getElementById('loadWeatherBtn').addEventListener('click', loadWeather);
+    loadWeather();
+  </script>
+</body>
+</html>

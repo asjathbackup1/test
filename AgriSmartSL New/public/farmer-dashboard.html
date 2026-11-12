@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Farmer Dashboard - AgriSmartSL</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+</head>
+
+
+<body class="dashboard-body">
+
+    <!-- =====================================
+         SIDEBAR
+    ====================================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <h2>AgriSmartSL</h2>
+
+            <p>Farmer Portal</p>
+
+        </div>
+
+
+        <nav class="sidebar-menu">
+
+            <a
+                href="/farmer-dashboard.html"
+                class="active"
+            >
+                Dashboard
+            </a>
+
+
+            <a href="/weather.html">
+                Weather Information
+            </a>
+
+
+            <a href="/crop-recommendation.html">
+                Crop Recommendations
+            </a>
+
+
+            <a href="/farm-advisory.html">
+                Farm Advisory
+            </a>
+
+
+            <a href="/farmer-profile.html">
+                My Profile
+            </a>
+
+
+            <a
+                href="/logout"
+                class="logout-link"
+            >
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =====================================
+         MAIN DASHBOARD
+    ====================================== -->
+
+    <main class="dashboard-main">
+
+
+        <!-- Dashboard Header -->
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <h1>Farmer Dashboard</h1>
+
+                <p>
+                    Your smart farming information centre
+                </p>
+
+            </div>
+
+
+            <div class="dashboard-user">
+
+                <div class="user-avatar">
+                    F
+                </div>
+
+                <div>
+
+                    <span id="headerFarmerName">
+                        Farmer Account
+                    </span>
+
+                    <small>
+                        Farmer
+                    </small>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- Dashboard Content -->
+
+        <section class="dashboard-content">
+
+
+            <!-- Welcome Banner -->
+
+            <div class="welcome-banner">
+
+                <div>
+
+                    <p class="welcome-small">
+                        Welcome to AgriSmartSL
+                    </p>
+
+                    <h2>
+                        Welcome back,
+                        <span id="farmerName">
+                            Farmer
+                        </span>!
+                    </h2>
+
+                    <p>
+                        Access weather information,
+                        crop recommendations and
+                        agricultural guidance to support
+                        better farming decisions.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Section Heading -->
+
+            <div class="dashboard-section-heading">
+
+                <div>
+
+                    <h2>
+                        Farming Services
+                    </h2>
+
+                    <p>
+                        Select a service to continue.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Dashboard Cards -->
+
+            <div class="dashboard-cards">
+
+
+                <!-- Weather -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        ☀
+                    </div>
+
+                    <h3>
+                        Weather Information
+                    </h3>
+
+                    <p>
+                        View current weather conditions
+                        for your farming district.
+                    </p>
+
+                    <a href="/weather.html">
+                        View Weather →
+                    </a>
+
+                </div>
+
+
+
+                <!-- Crop Recommendation -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        🌱
+                    </div>
+
+                    <h3>
+                        Crop Recommendations
+                    </h3>
+
+                    <p>
+                        Find suitable crops based on
+                        weather, district and farm
+                        conditions.
+                    </p>
+
+                    <a href="/crop-recommendation.html">
+                        Get Recommendation →
+                    </a>
+
+                </div>
+
+
+
+                <!-- Farm Advisory -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        📋
+                    </div>
+
+                    <h3>
+                        Farm Advisory
+                    </h3>
+
+                    <p>
+                        Access useful farming guidance
+                        and agricultural advisory
+                        information.
+                    </p>
+
+                    <a href="/farm-advisory.html">
+                        View Advice →
+                    </a>
+
+                </div>
+
+
+
+                <!-- Profile -->
+
+                <div class="dashboard-card">
+
+                    <div class="card-icon">
+                        👤
+                    </div>
+
+                    <h3>
+                        My Profile
+                    </h3>
+
+                    <p>
+                        View and manage your personal
+                        and farm information.
+                    </p>
+
+                    <a href="/farmer-profile.html">
+                        View Profile →
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        <!-- Farm Overview -->
+
+        <div class="dashboard-section-heading">
+
+            <div>
+                <h2>Farm Overview</h2>
+
+                <p>
+                    A quick summary of your registered farm information.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="farm-overview-grid">
+
+            <div class="farm-overview-card">
+
+                <div class="overview-icon">
+                    📍
+                </div>
+
+                <div>
+                    <span class="overview-label">
+                        REGISTERED DISTRICT
+                    </span>
+
+                    <h3 id="dashboardDistrict">
+                        Loading...
+                    </h3>
+                </div>
+
+            </div>
+
+
+            <div class="farm-overview-card">
+
+                <div class="overview-icon">
+                    🌱
+                </div>
+
+                <div>
+                    <span class="overview-label">
+                        SOIL TYPE
+                    </span>
+
+                    <h3 id="dashboardSoil">
+                        Loading...
+                    </h3>
+                </div>
+
+            </div>
+
+        </div>
+
+
+            <!-- Information Area -->
+
+            <div class="dashboard-info-grid">
+
+
+                <!-- Farming Tip -->
+
+                <div class="dashboard-info-card">
+
+                    <div class="info-card-heading">
+
+                        <div>
+
+                            <span class="info-label">
+                                FARMING SUPPORT
+                            </span>
+
+                            <h3>
+                                Smart Farming Tip
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+                        Check current weather conditions
+                        before planning irrigation,
+                        planting or other important
+                        farming activities.
+                    </p>
+
+
+                    <a href="/farm-advisory.html">
+                        Explore Farm Advice
+                    </a>
+
+                </div>
+
+
+
+                <!-- Profile Reminder -->
+
+                <div class="dashboard-info-card">
+
+                    <div class="info-card-heading">
+
+                        <div>
+
+                            <span class="info-label">
+                                YOUR FARM
+                            </span>
+
+                            <h3>
+                                Keep Your Profile Updated
+                            </h3>
+
+                        </div>
+
+                    </div>
+
+
+                    <p>
+                        Make sure your district and soil
+                        information are correct so
+                        AgriSmartSL can provide more
+                        relevant recommendations.
+                    </p>
+
+
+                    <a href="/farmer-profile.html">
+                        Update Profile
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================
+         JAVASCRIPT
+    ====================================== -->
+
+    <script>
+
+        async function loadCurrentUser() {
+
+            try {
+
+                const response =
+                    await fetch('/current-user');
+
+
+                // User not logged in
+                if (!response.ok) {
+
+                    window.location.href =
+                        '/login.html';
+
+                    return;
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                // Check farmer role
+                if (
+                    !data.success ||
+                    !data.user ||
+                    data.user.role !== 'farmer'
+                ) {
+
+                    window.location.href =
+                        '/login.html';
+
+                    return;
+                }
+
+
+                // Display farmer name
+                document.getElementById(
+                    'farmerName'
+                ).textContent =
+                    data.user.full_name;
+
+
+                document.getElementById(
+                    'headerFarmerName'
+                ).textContent =
+                    data.user.full_name;
+
+
+                // First letter for avatar
+                const firstLetter =
+                    data.user.full_name
+                        .charAt(0)
+                        .toUpperCase();
+
+
+                document.querySelector(
+                    '.user-avatar'
+                ).textContent =
+                    firstLetter;
+
+
+            } catch (error) {
+
+                console.error(
+                    'Unable to load user:',
+                    error
+                );
+
+
+                window.location.href =
+                    '/login.html';
+            }
+        }
+
+async function loadFarmOverview() {
+
+    try {
+
+        const response =
+            await fetch('/farmer/profile');
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok || !data.success) {
+            return;
+        }
+
+
+        const farmer = data.farmer;
+
+
+        document.getElementById(
+            'dashboardDistrict'
+        ).textContent =
+            farmer.district || 'Not set';
+
+
+        document.getElementById(
+            'dashboardSoil'
+        ).textContent =
+            farmer.soil_type || 'Not set';
+
+
+    } catch (error) {
+
+        console.error(
+            'Unable to load farm overview:',
+            error
+        );
+
+    }
+
+}
+
+
+        loadCurrentUser();
+        loadFarmOverview();
+
+    </script>
+
+
+</body>
+
+</html>

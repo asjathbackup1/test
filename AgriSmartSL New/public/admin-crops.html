@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Crops</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body { background:#f3f7f1; }
+    .page-shell { max-width: 1100px; margin: 30px auto; padding: 0 16px 35px; }
+    .panel { background:#fff; border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.08); padding:22px; margin-bottom:18px; }
+    .form-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:16px; }
+    input, select, textarea, button { width:100%; padding:12px 14px; border-radius:10px; border:1px solid #d9e8dc; }
+    button { background:#1f8a4c; color:#fff; border:none; cursor:pointer; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { border-bottom:1px solid #e5ece6; padding:10px; text-align:left; }
+  </style>
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><h2>AgriSmartSL</h2><p>Admin Portal</p></div>
+    <nav class="sidebar-menu">
+      <a href="/admin-dashboard.html">Dashboard</a>
+      <a href="/admin-farmers.html">Manage Farmers</a>
+      <a href="/admin-crop-rules.html">Manage Crop Rules</a>
+      <a href="/admin-crops.html" class="active">Manage Crops</a>
+      <a href="/admin-advisories.html">Manage Advisories</a>
+      <a href="/logout" class="logout-link">Logout</a>
+    </nav>
+  </aside>
+  <main class="dashboard-main">
+    <div class="page-shell">
+      <div class="panel">
+        <h1>Manage Crops</h1>
+        <form id="cropForm">
+          <div class="form-grid">
+            <div><label>Crop name</label><input type="text" id="cropName" required /></div>
+            <div><label>Suitable soil</label><input type="text" id="suitableSoil" /></div>
+            <div><label>Suitable season</label><select id="suitableSeason"><option value="Both">Both</option><option value="Maha">Maha</option><option value="Yala">Yala</option></select></div>
+            <div><label>Description</label><textarea id="description"></textarea></div>
+            <div style="align-self:end;"><button type="submit">Add crop</button></div>
+          </div>
+        </form>
+      </div>
+      <div class="panel">
+        <table>
+          <thead><tr><th>Crop</th><th>Soil</th><th>Season</th></tr></thead>
+          <tbody id="cropRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script>
+    async function loadCrops() {
+      const res = await fetch('/admin/crops');
+      const data = await res.json();
+      if (!data.success) return;
+      document.getElementById('cropRows').innerHTML = data.crops.map(c => `
+        <tr><td>${c.crop_name}</td><td>${c.suitable_soil || '—'}</td><td>${c.suitable_season || 'Both'}</td></tr>
+      `).join('');
+    }
+    document.getElementById('cropForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const payload = {
+        crop_name: document.getElementById('cropName').value,
+        suitable_soil: document.getElementById('suitableSoil').value,
+        suitable_season: document.getElementById('suitableSeason').value,
+        description: document.getElementById('description').value,
+      };
+      const res = await fetch('/admin/crops', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(payload)});
+      const data = await res.json();
+      if (data.success) { loadCrops(); document.getElementById('cropForm').reset(); }
+    });
+    loadCrops();
+  </script>
+</body>
+</html>

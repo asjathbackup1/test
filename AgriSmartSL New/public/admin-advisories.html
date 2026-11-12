@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Advisories</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body { background:#f3f7f1; }
+    .page-shell { max-width: 1100px; margin: 30px auto; padding: 0 16px 35px; }
+    .panel { background:#fff; border-radius:16px; box-shadow:0 12px 30px rgba(0,0,0,.08); padding:22px; margin-bottom:18px; }
+    .form-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:16px; }
+    input, textarea, select, button { width:100%; padding:12px 14px; border-radius:10px; border:1px solid #d9e8dc; }
+    button { background:#1f8a4c; color:#fff; border:none; cursor:pointer; }
+    table { width:100%; border-collapse: collapse; }
+    th, td { border-bottom:1px solid #e5ece6; padding:10px; text-align:left; }
+  </style>
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><h2>AgriSmartSL</h2><p>Admin Portal</p></div>
+    <nav class="sidebar-menu">
+      <a href="/admin-dashboard.html">Dashboard</a>
+      <a href="/admin-farmers.html">Manage Farmers</a>
+      <a href="/admin-crop-rules.html">Manage Crop Rules</a>
+      <a href="/admin-crops.html">Manage Crops</a>
+      <a href="/admin-advisories.html" class="active">Manage Advisories</a>
+      <a href="/logout" class="logout-link">Logout</a>
+    </nav>
+  </aside>
+  <main class="dashboard-main">
+    <div class="page-shell">
+      <div class="panel">
+        <h1>Manage Advisories</h1>
+        <form id="advisoryForm">
+          <div class="form-grid">
+            <div><label>Title</label><input type="text" id="title" required /></div>
+            <div><label>Category</label><select id="category"><option value="Soil">Soil</option><option value="Water">Water</option><option value="Pest">Pest</option><option value="Season">Season</option></select></div>
+            <div style="grid-column:1 / -1;"><label>Description</label><textarea id="description" rows="4" required></textarea></div>
+            <div style="align-self:end;"><button type="submit">Add advisory</button></div>
+          </div>
+        </form>
+      </div>
+      <div class="panel">
+        <table>
+          <thead><tr><th>Title</th><th>Category</th><th>Description</th></tr></thead>
+          <tbody id="advisoryRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script>
+    async function loadAdvisories() {
+      const res = await fetch('/admin/advisories');
+      const data = await res.json();
+      if (!data.success) return;
+      document.getElementById('advisoryRows').innerHTML = data.advisories.map(item => `
+        <tr><td>${item.title}</td><td>${item.category}</td><td>${item.description}</td></tr>
+      `).join('');
+    }
+    document.getElementById('advisoryForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const payload = {
+        title: document.getElementById('title').value,
+        category: document.getElementById('category').value,
+        description: document.getElementById('description').value,
+      };
+      const res = await fetch('/admin/advisories', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+      const data = await res.json();
+      if (data.success) { loadAdvisories(); document.getElementById('advisoryForm').reset(); }
+    });
+    loadAdvisories();
+  </script>
+</body>
+</html>

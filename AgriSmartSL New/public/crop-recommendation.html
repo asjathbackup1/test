@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crop Recommendations</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    body { background:#f3f7f1; }
+    .page-shell { max-width: 1200px; margin: 30px auto; padding: 0 18px 40px; }
+    .panel { background:#fff; border-radius:16px; padding:22px; box-shadow:0 12px 30px rgba(0,0,0,.08); margin-bottom:20px; }
+    .filters { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; }
+    .filters input, .filters select, .filters button { width:100%; padding:12px 14px; border-radius:10px; border:1px solid #d7e8d8; }
+    .filters button { background:#1f8a4c; color:#fff; border:none; cursor:pointer; }
+    .score-bar { width: 100%; height: 14px; border-radius: 999px; background: #e7efe8; overflow: hidden; margin: 8px 0 12px; }
+    .score-fill { height: 100%; background: linear-gradient(90deg,#1d9d69,#8acb80); }
+    .recommendation-card { border:1px solid #e3efe6; border-radius:14px; background:#f9fcf9; padding:18px; margin-bottom:16px; }
+    .badge { display:inline-block; background:#eaf7ee; color:#165f3a; padding:6px 10px; border-radius:999px; font-weight:700; font-size:12px; }
+    .reason-list, .warning-list { margin-top:8px; padding-left:18px; }
+    .reason-list li, .warning-list li { margin:8px 0; color:#535b55; }
+    .disclaimer { background:#eef7ff; border:1px solid #bfdaf6; color:#214b78; border-radius:10px; padding:12px; }
+    @media (max-width: 700px){ .page-shell{ padding:0 12px 24px; } }
+  </style>
+</head>
+<body class="dashboard-body">
+  <aside class="sidebar">
+    <div class="sidebar-logo"><h2>AgriSmartSL</h2><p>Farmer Portal</p></div>
+    <nav class="sidebar-menu">
+      <a href="/farmer-dashboard.html">Dashboard</a>
+      <a href="/weather.html">Weather Information</a>
+      <a href="/crop-recommendation.html" class="active">Crop Recommendations</a>
+      <a href="/farm-advisory.html">Farm Advisory</a>
+      <a href="/farmer-profile.html">My Profile</a>
+      <a href="/logout" class="logout-link">Logout</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard-main">
+    <div class="page-shell">
+      <div class="panel">
+        <h1>Crop Recommendation</h1>
+        <p class="auth-subtitle">Season-aware, climate-aware decision support for your district.</p>
+        <div class="filters">
+          <div>
+            <label>District</label>
+            <select id="districtSelect">
+              <option value="Anuradhapura">Anuradhapura</option>
+              <option value="Colombo">Colombo</option>
+              <option value="Kandy">Kandy</option>
+              <option value="Galle">Galle</option>
+              <option value="Hambantota">Hambantota</option>
+              <option value="Jaffna">Jaffna</option>
+              <option value="Kurunegala">Kurunegala</option>
+              <option value="Badulla">Badulla</option>
+              <option value="Ratnapura">Ratnapura</option>
+              <option value="Trincomalee">Trincomalee</option>
+            </select>
+          </div>
+          <div>
+            <label>Soil type</label>
+            <input id="soilTypeInput" type="text" value="Loam" placeholder="Loam / Sandy loam / Clay loam" />
+          </div>
+          <div>
+            <label>Water source</label>
+            <select id="waterSourceSelect">
+              <option value="both">Both</option>
+              <option value="irrigated">Irrigated</option>
+              <option value="rainfed">Rainfed</option>
+            </select>
+          </div>
+          <div>
+            <label>&nbsp;</label>
+            <button id="recommendBtn">Get recommendations</button>
+          </div>
+        </div>
+        <div class="disclaimer" style="margin-top:16px;">Decision-support tool; consult your agriculture officer.</div>
+      </div>
+
+      <div class="panel">
+        <div id="recommendationSummary">Loading recommendations...</div>
+        <div id="recommendationList"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const summary = document.getElementById('recommendationSummary');
+    const listContainer = document.getElementById('recommendationList');
+
+    async function loadRecommendations() {
+      summary.textContent = 'Loading recommendations...';
+      listContainer.innerHTML = '';
+
+      const payload = {
+        district: document.getElementById('districtSelect').value,
+        soil_type: document.getElementById('soilTypeInput').value,
+        water_source: document.getElementById('waterSourceSelect').value,
+      };
+
+      try {
+        const res = await fetch('/api/crop-recommendations', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (!data.success) {
+          summary.textContent = data.message || 'Unable to generate recommendations.';
+          return;
+        }
+
+        summary.innerHTML = `Season: <strong>${data.season}</strong> • District: <strong>${data.district}</strong> • Soil: <strong>${data.soil_type}</strong>`;
+
+        listContainer.innerHTML = data.recommendations.map((item) => {
+          const percentage = Math.min(100, Math.max(0, Number(item.score || 0)));
+          const reasons = (item.reasons || []).map((reason) => `<li>${reason}</li>`).join('');
+          const warnings = (item.warnings || []).map((warning) => `<li>${warning}</li>`).join('');
+          return `
+            <div class="recommendation-card">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;">
+                <h3>${item.crop_name}</h3>
+                <span class="badge">${item.label}</span>
+              </div>
+              <div style="font-weight:700; margin-top:8px;">Score: ${item.score} / 100</div>
+              <div class="score-bar"><div class="score-fill" style="width:${percentage}%"></div></div>
+              <div><strong>Why this crop:</strong>
+                <ul class="reason-list">${reasons || '<li>Reason data is limited. Consult an agriculture officer for a final field decision.</li>'}</ul>
+              </div>
+              <div><strong>Warnings:</strong>
+                <ul class="warning-list">${warnings || '<li>No major warnings identified.</li>'}</ul>
+              </div>
+            </div>
+          `;
+        }).join('');
+      } catch (error) {
+        summary.textContent = 'Unable to generate recommendations right now.';
+      }
+    }
+
+    document.getElementById('recommendBtn').addEventListener('click', loadRecommendations);
+    loadRecommendations();
+  </script>
+</body>
+</html>

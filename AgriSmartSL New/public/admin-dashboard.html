@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - AgriSmartSL</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+            <h2>AgriSmartSL</h2>
+            <p>Admin Portal</p>
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/admin-dashboard.html" class="active">
+                Dashboard
+            </a>
+
+            <a href="/admin-farmers.html">
+                Manage Farmers
+            </a>
+
+            <a href="/admin-crop-rules.html">
+                Manage Crop Rules
+            </a>
+
+            <a href="/admin-advisories.html">
+                Manage Advisories
+            </a>
+
+            <a href="/admin-crops.html">
+                Manage Crops
+            </a>
+
+            <a href="/admin-crop-rules.html">
+                Crop Rules
+            </a>
+
+            <a href="/logout">
+                Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-header">
+
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p>Manage the AgriSmartSL system</p>
+            </div>
+
+            <div class="dashboard-user">
+                <span id="adminName">Administrator</span>
+            </div>
+
+        </header>
+
+        <section class="dashboard-content">
+
+            <div class="welcome-banner">
+
+                <div>
+                    <h2>
+                        Welcome back,
+                        <span id="welcomeAdminName">
+                            Administrator
+                        </span>!
+                    </h2>
+
+                    <p>
+                        Manage farmer accounts, crop information,
+                        agricultural advisories and system reports.
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="dashboard-cards">
+
+                <div class="dashboard-card">
+                    <h3>Total Farmers</h3>
+
+                    <p class="dashboard-number" id="totalFarmers">
+                        0
+                    </p>
+
+                    <a href="/admin-farmers.html">
+                        Manage Farmers
+                    </a>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Total Crops</h3>
+
+                    <p class="dashboard-number" id="totalCrops">
+                        0
+                    </p>
+
+                    <a href="/admin-crops.html">
+                        Manage Crops
+                    </a>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Crop Rules</h3>
+
+                    <p class="dashboard-number" id="totalCropRules">
+                        0
+                    </p>
+
+                    <a href="/admin-crop-rules.html">
+                        Manage Crop Rules
+                    </a>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>Farm Advisories</h3>
+
+                    <p class="dashboard-number" id="totalAdvisories">
+                        0
+                    </p>
+
+                    <a href="/admin-advisories.html">
+                        Manage Advisories
+                    </a>
+                </div>
+
+                <div class="dashboard-card">
+                    <h3>System Reports</h3>
+
+                    <p>
+                        View farmer, crop and advisory reports.
+                    </p>
+
+                    <a href="#">
+                        View Reports
+                    </a>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+        async function loadAdminDashboard() {
+            try {
+                const userResponse = await fetch('/current-user');
+
+                if (!userResponse.ok) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                const userData = await userResponse.json();
+
+                if (
+                    !userData.success ||
+                    userData.user.role !== 'admin'
+                ) {
+                    window.location.href = '/login.html';
+                    return;
+                }
+
+                document.getElementById('adminName').textContent =
+                    userData.user.full_name;
+
+                document.getElementById(
+                    'welcomeAdminName'
+                ).textContent = userData.user.full_name;
+
+                const statsResponse = await fetch('/admin/stats');
+
+                if (statsResponse.ok) {
+                    const statsData = await statsResponse.json();
+
+                    document.getElementById(
+                        'totalFarmers'
+                    ).textContent = statsData.totalFarmers;
+
+                    document.getElementById(
+                        'totalCrops'
+                    ).textContent = statsData.totalCrops;
+
+                    document.getElementById(
+                        'totalCropRules'
+                    ).textContent = statsData.totalCropRules;
+
+                    document.getElementById(
+                        'totalAdvisories'
+                    ).textContent = statsData.totalAdvisories;
+                }
+
+            } catch (error) {
+                console.error(
+                    'Admin dashboard error:',
+                    error
+                );
+
+                window.location.href = '/login.html';
+            }
+        }
+
+        loadAdminDashboard();
+    </script>
+
+</body>
+</html>
