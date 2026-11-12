@@ -135,6 +135,13 @@ async function main() {
     console.log('Created a local database password in the ignored .env file.');
   }
 
+  const sessionSecret = process.env.SESSION_SECRET;
+  if (!sessionSecret || sessionSecret === 'replace_with_a_random_session_secret') {
+    process.env.SESSION_SECRET = crypto.randomBytes(32).toString('hex');
+    updateEnvValue('SESSION_SECRET', process.env.SESSION_SECRET);
+    console.log('Created a local session secret in the ignored .env file.');
+  }
+
   if (process.env.DB_HOST === '127.0.0.1' || process.env.DB_HOST === 'localhost') {
     startDatabaseContainer();
   }
